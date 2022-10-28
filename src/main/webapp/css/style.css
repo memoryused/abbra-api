@@ -1,0 +1,109 @@
+body {
+	color: #216F06;
+	background: #E1E8EB;
+	font-family: "PSLKandaW3";
+}
+
+.login, .image {
+	min-height: 100vh;
+}
+
+#exampleCaptchaTag_CaptchaDiv {
+	margin: auto !important;
+}
+
+::placeholder {
+	color: #929292;
+}
+
+.alert-danger {
+	color: white;
+	background-color: red;
+	border-color: red;
+}
+
+.login-bg {
+	/*background-image: linear-gradient(155deg, #FFFFFF 35%, #FCFCFC 50%, #D0D3D4 73%, #B3B6B7 93%, #979A9A 100%);*/
+	background-image: linear-gradient(155deg, #EBF7E7 35%, #C4E8B8 60%, #B1E1A1 73%, #5AB13C 93%, #499130 100%);
+	padding: 35px 50px 35px 50px;
+	width: 350px;
+	border-radius: 10px;
+	box-shadow: 0 0 25px #000;
+}
+
+.custom-control {
+	padding-left: 3%;
+}
+
+.custom-select {
+	width: 73%
+}
+
+.display-4 {
+	font-weight: normal;
+	padding-bottom: 15px;
+}
+
+.requiredInput {
+	border: 3px solid red !important;
+}
+
+.alert-warning{
+	color: #3d1a6e !important;
+    background-color: #ffcb08 !important;
+    border-color: #ffcb08 !important;
+}
+
+.btn-modal{
+	/* 2022-09-19 [2022EXTVFS-58] sitthinarong.j */
+	color: #10213e !important;
+	
+	border-radius: 20px;
+	width: 100px;
+	font-weight: bold;
+}
+
+.btn-warning{
+	color: #3d1a6e !important;
+}
+
+/* 2022-09-19 [2022EXTVFS-58] sitthinarong.j */
+.btn-primary {
+	color: white !important;
+	background-color: #0057a3 !important;
+	border-color: #e3e3e3 !important;
+	box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+}
+
+.btn-warning:hover {
+	background-color: #E6B708 !important;
+	border-color: #E6B708 !important;
+}
+
+.modal{
+	/* 2022-09-19 [2022EXTVFS-58] sitthinarong.j */
+	color: #10213e !important;
+}
+
+.btn-modal-cancel{
+	background-color: white !important;
+	border-color:#dae0e5 !important;
+}
+
+.btn-modal-cancel:hover{
+	background-color: #D8DCDE !important;
+}
+
+.modal-footer{
+	border-top: none;
+}
+
+.modal-header{
+	font-weight: bold;
+	
+    /* 2022-09-19 [2022EXTVFS-58] sitthinarong.j */
+    background: linear-gradient(155deg, #10213e 35%, #1d3b6e 50%, #274e92 73%, #376cc4 93%, #88aff2 100%);
+    border-bottom: 2px solid #88aff2;
+    
+    color: white;
+}

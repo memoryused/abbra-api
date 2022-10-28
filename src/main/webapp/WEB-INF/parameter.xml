@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<parameter>
+	<application>
+		<securityUtilConfigPath>com/sit/abbra/abbraapi/util/security/security_util_config.properties</securityUtilConfigPath>
+		<versionProvide>v1</versionProvide>
+		<applicationLocaleString>th</applicationLocaleString>
+    	<enableSQLParameterizedDebug>true</enableSQLParameterizedDebug>
+    	<enableSQLParameterizedParamDebug>true</enableSQLParameterizedParamDebug>
+    	<maxExceed>1000</maxExceed>
+    	<maxExceedReport>10000</maxExceedReport>
+    	<maxExceedDay>31</maxExceedDay>
+    	<sharePath>/opt/data/</sharePath>
+    </application>
+    
+    <checkRedirectLogin>
+    	<!-- DOMAIN_NAME_URL,REFERER_URL,REDIRECT_URL -->
+    	<redirect>http://localhost:8080,http://localhost:8080/abbra</redirect>
+    </checkRedirectLogin>
+    
+	<database>
+		<key>eextapi</key>
+		<databaseType>mysql</databaseType>
+		<jndi>true</jndi>
+		<lookup>jdbc/template_dc</lookup>
+		<schemas>[OC]:LOG</schemas>
+	</database>
+    
+    <dateFormat>
+   		<!-- เปลื่ยนตามความต้องการ -->
+		<timeZone>+7</timeZone>
+    
+      	<!-- รูปแบบวันที่ที่ดึงจาก server และนำไป insert update select ฐานข้อมูล -->
+        <dbFormat>yyyyMMddHHmmss</dbFormat>
+        <dbDateTime>yyyyMMddHHmm</dbDateTime>
+        <dbInsert>yyyy-MM-dd HH:mm:ss</dbInsert>
+        <dbDate>yyyyMMdd</dbDate>
+        <dbTime>HHmm</dbTime>
+        <dbTimestamp>yyyyMMddHHmmssSSS</dbTimestamp>
+        
+        <!-- รูปแบบวันที่ ที่นำไปแสดงบนหน้าจอ และรับกลับมาจากหน้าจอ  -->
+        <uiFormat>dd/MM/yyyy HH:mm:ss</uiFormat>
+        <uiDateTime>dd/MM/yyyy HH:mm</uiDateTime>
+        <uiDate>dd/MM/yyyy</uiDate>
+        <uiTime>HH:mm</uiTime>
+        <uiTimestamp>dd/MM/yyyy HH:mm:ss.SSS</uiTimestamp>
+        
+        <stickerDateFormat>dd MMM yyyy</stickerDateFormat>
+	</dateFormat>
+    
+    <!-- เพิ่ม parameter สำหรับใช้ในการ lock record -->
+    <lockProcess>
+    	<dateFormatCompare>yyyyMMddHHmmssSSS</dateFormatCompare>
+    	<dateLocaleString>en</dateLocaleString>
+    </lockProcess>
+	
+	<clientRegenerate>
+    	<clientId>fafd8f911898533a72572e132181fca408c43c433d6b6778</clientId>
+    	<secret>YFGVMlflyJuwxoJwPVkRwZPjv/LYBYhiryEPUNRzOrQOcEEhNG2ieyhGxwilV4bo</secret>
+    </clientRegenerate>
+    
+    <authWebService>
+    	<url>http://localhost:8080/pibicsoauth/rest/v1/auth</url>
+    	<endPointRequestToken>token</endPointRequestToken>
+    	<secure>false</secure>
+    	<timeout>30000</timeout>
+    	<protocol></protocol>
+    	<round>1</round>
+	</authWebService>
+</parameter>

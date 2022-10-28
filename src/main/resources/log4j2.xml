@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+	<Properties>
+		<Property name="baseDir">/opt/log/web/log/abbra-api</Property>
+	</Properties>
+	<Appenders>
+	
+		<Console name="LogConsole" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+		</Console>
+
+		<RollingFile name="LogINITIAL" fileName="${baseDir}/INITIAL.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/INITIAL-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<RollingFile name="LogSubmitterIdLogUtil" fileName="${baseDir}/SubmitterIdLogUtil.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/SubmitterIdLogUtil-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS},[%t],%msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<RollingFile name="LogSenderErrorUtil" fileName="${baseDir}/SenderErrorUtil.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/SenderErrorUtil-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<RollingFile name="LogFILTER" fileName="${baseDir}/FILTER.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/FILTER-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<RollingFile name="LogLoginServlet" fileName="${baseDir}/LoginServlet.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/LoginServlet-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<RollingFile name="LogAuthenticationWS" fileName="${baseDir}/AuthenticationWS.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/AuthenticationWS-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+
+		<RollingFile name="LogUTIL" fileName="${baseDir}/LogUTIL.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/LogUTIL-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+
+		<RollingFile name="LogSelectitemWS" fileName="${baseDir}/SelectitemWS.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/SelectitemWS-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<RollingFile name="LogPreApproveWS" fileName="${baseDir}/PreApproveWS.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/PreApproveWS-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<RollingFile name="LogApproveWS" fileName="${baseDir}/ApproveWS.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/ApproveWS-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<RollingFile name="LogAttachmentWs" fileName="${baseDir}/AttachmentWs.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/AttachmentWs-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<RollingFile name="LogLockProcessWS" fileName="${baseDir}/LockProcessWS.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/LockProcessWS-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+	</Appenders>
+	
+	<Loggers>
+
+		<Logger name="AuthenticationWS" level="DEBUG">
+			<AppenderRef ref="LogAuthenticationWS" />
+		</Logger>
+		
+		<Logger name="LoginServlet" level="DEBUG">
+			<AppenderRef ref="LogLoginServlet" />
+		</Logger>
+		
+		<Logger name="FILTER" level="DEBUG">
+			<AppenderRef ref="LogFILTER" />
+		</Logger>
+		
+		<Logger name="SenderErrorUtil" level="DEBUG">
+			<AppenderRef ref="LogSenderErrorUtil" />
+		</Logger>
+		
+		<Logger name="SubmitterIdLogUtil" level="DEBUG">
+			<AppenderRef ref="LogSubmitterIdLogUtil" />
+		</Logger>
+		
+		<Logger name="INITIAL" level="DEBUG">
+			<AppenderRef ref="LogINITIAL" />
+		</Logger>
+		
+		<Logger name="UTIL" level="DEBUG">
+			<AppenderRef ref="LogUTIL" />
+		</Logger>
+		
+		<Logger name="SelectitemWS" level="DEBUG">
+			<AppenderRef ref="LogSelectitemWS" />
+		</Logger>
+		
+		<Logger name="PreApproveWS" level="DEBUG">
+			<AppenderRef ref="LogPreApproveWS" />
+		</Logger>
+		
+		<Logger name="ApproveWS" level="DEBUG">
+			<AppenderRef ref="LogApproveWS" />
+		</Logger>
+		
+		<Logger name="AttachmentWs" level="DEBUG">
+			<AppenderRef ref="LogAttachmentWs" />
+		</Logger>
+		
+		<Logger name="LockProcessWS" level="DEBUG">
+			<AppenderRef ref="LogLockProcessWS" />
+		</Logger>
+		
+		<Root level="DEBUG">
+			<AppenderRef ref="LogConsole" />
+		</Root>
+	</Loggers>
+</Configuration>
