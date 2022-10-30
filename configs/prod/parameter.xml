@@ -9,7 +9,7 @@
     	<maxExceed>1000</maxExceed>
     	<maxExceedReport>10000</maxExceedReport>
     	<maxExceedDay>31</maxExceedDay>
-    	<sharePath>/opt/data/</sharePath>
+    	<sharePath>/opt/data</sharePath>
     </application>
     
     <checkRedirectLogin>
@@ -66,4 +66,10 @@
     	<protocol></protocol>
     	<round>1</round>
 	</authWebService>
+	
+	<thumbnailConfig>
+    	<scale>0.15</scale>	<!-- 0.15 = 15% of the original image -->
+    	<watermark>false</watermark>
+    	<watermarkImage></watermarkImage>
+    </thumbnailConfig>
 </parameter>

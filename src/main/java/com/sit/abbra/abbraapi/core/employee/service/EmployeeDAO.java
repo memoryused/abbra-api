@@ -53,7 +53,7 @@ public class EmployeeDAO extends CommonDAO{
 			
 			if (rst.next()) {
 				String imgPath = StringUtil.nullToString(rst.getString("img_card"));
-				if(imgPath.isEmpty()) {
+				if(!imgPath.isEmpty()) {
 					img = EExtensionApiUtil.convertBase64(ParameterConfig.getApplication().getSharePath() + imgPath);
 				}
 			}

@@ -56,6 +56,7 @@ public class HomeDAO extends CommonDAO {
 	        	pro.setSrc(StringUtil.nullToString(rst.getString("File")));
 	       
 				if(!pro.getSrc().isEmpty()) {
+					
 					pro.setThumb(
 							EExtensionApiUtil.getThumbnailByScale(
 									ParameterConfig.getApplication().getSharePath() + pro.getSrc(), 
@@ -63,6 +64,8 @@ public class HomeDAO extends CommonDAO {
 									ParameterConfig.getThumbnailConfig().isWatermark(), 
 									ParameterConfig.getThumbnailConfig().getWatermarkImage())
 							);
+					
+					pro.setSrc(EExtensionApiUtil.convertBase64(ParameterConfig.getApplication().getSharePath() + pro.getSrc()));
 				}
 	        	lstPromotion.add(pro);
 			}
@@ -111,6 +114,7 @@ public class HomeDAO extends CommonDAO {
 									ParameterConfig.getThumbnailConfig().isWatermark(), 
 									ParameterConfig.getThumbnailConfig().getWatermarkImage())
 							);
+					release.setSrc(EExtensionApiUtil.convertBase64(ParameterConfig.getApplication().getSharePath() + release.getSrc()));
 				}
 				lstPressRelease.add(release);
 			}

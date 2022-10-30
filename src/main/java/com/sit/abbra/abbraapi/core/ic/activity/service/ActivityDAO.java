@@ -60,14 +60,16 @@ public class ActivityDAO extends CommonDAO {
 				release.setDetail(StringUtil.nullToString(rst.getString("Detail")));
 				release.setSrc(StringUtil.nullToString(rst.getString("File")));
 				
-				if(!release.getSrc().isEmpty()) {
-					release.setThumb(
-							EExtensionApiUtil.getThumbnailByScale(
-									ParameterConfig.getApplication().getSharePath() + release.getSrc(), 
-									ParameterConfig.getThumbnailConfig().getScale(), 
-									ParameterConfig.getThumbnailConfig().isWatermark(), 
-									ParameterConfig.getThumbnailConfig().getWatermarkImage())
-							);
+				if(!release.getSrc().isEmpty() && annType == 5) {//TODO: 
+					
+						release.setThumb(
+								EExtensionApiUtil.getThumbnailByScale(
+										ParameterConfig.getApplication().getSharePath() + release.getSrc(), 
+										ParameterConfig.getThumbnailConfig().getScale(), 
+										ParameterConfig.getThumbnailConfig().isWatermark(), 
+										ParameterConfig.getThumbnailConfig().getWatermarkImage())
+								);
+						release.setSrc(EExtensionApiUtil.convertBase64(ParameterConfig.getApplication().getSharePath() + release.getSrc()));
 				}
 				listActivity.add(release);
 			}
@@ -113,7 +115,7 @@ public class ActivityDAO extends CommonDAO {
 				release.setDetail(StringUtil.nullToString(rst.getString("Detail")));
 				release.setSrc(StringUtil.nullToString(rst.getString("File")));
 				
-				if(!release.getSrc().isEmpty()) {
+				if(!release.getSrc().isEmpty() && annType == 5) {//TODO: 
 					release.setThumb(
 							EExtensionApiUtil.getThumbnailByScale(
 									ParameterConfig.getApplication().getSharePath() + release.getSrc(), 
@@ -121,6 +123,7 @@ public class ActivityDAO extends CommonDAO {
 									ParameterConfig.getThumbnailConfig().isWatermark(), 
 									ParameterConfig.getThumbnailConfig().getWatermarkImage())
 							);
+					release.setSrc(EExtensionApiUtil.convertBase64(ParameterConfig.getApplication().getSharePath() + release.getSrc()));
 				}
 				listActivity.add(release);
 			}
