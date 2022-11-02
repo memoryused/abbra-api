@@ -9,7 +9,7 @@
     	<maxExceed>1000</maxExceed>
     	<maxExceedReport>10000</maxExceedReport>
     	<maxExceedDay>31</maxExceedDay>
-    	<sharePath>/opt/data</sharePath>
+    	<sharePath>/opt/data/abbra</sharePath>
     </application>
     
     <checkRedirectLogin>
@@ -72,5 +72,4 @@
     	<watermark>false</watermark>
     	<watermarkImage></watermarkImage>
     </thumbnailConfig>
-	
 </parameter>

@@ -41,22 +41,6 @@
 			</DefaultRolloverStrategy>
 		</RollingFile>
 		
-		<RollingFile name="LogSenderErrorUtil" fileName="${baseDir}/SenderErrorUtil.log"
-			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/SenderErrorUtil-%d{yyyy-MM-dd-HH}-%i.log">
-			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
-			<Policies>
-				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
-				<SizeBasedTriggeringPolicy size="20 MB" />
-			</Policies>
-			<DefaultRolloverStrategy max="50">
-				<Delete basePath="${baseDir}" maxDepth="3">
-					<IfFileName glob="*/*.log">
-						<IfLastModified age="1d" />
-					</IfFileName>
-				</Delete>
-			</DefaultRolloverStrategy>
-		</RollingFile>
-		
 		<RollingFile name="LogFILTER" fileName="${baseDir}/FILTER.log"
 			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/FILTER-%d{yyyy-MM-dd-HH}-%i.log">
 			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
@@ -105,6 +89,21 @@
 			</DefaultRolloverStrategy>
 		</RollingFile>
 
+		<RollingFile name="LogAboutUsWS" fileName="${baseDir}/AboutUsWSl.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/AboutUsWS-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
 		<RollingFile name="LogUTIL" fileName="${baseDir}/LogUTIL.log"
 			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/LogUTIL-%d{yyyy-MM-dd-HH}-%i.log">
 			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
@@ -137,8 +136,8 @@
 			</DefaultRolloverStrategy>
 		</RollingFile>
 		
-		<RollingFile name="LogPreApproveWS" fileName="${baseDir}/PreApproveWS.log"
-			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/PreApproveWS-%d{yyyy-MM-dd-HH}-%i.log">
+		<RollingFile name="LogDepartmentWS" fileName="${baseDir}/DepartmentWS.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/DepartmentWS-%d{yyyy-MM-dd-HH}-%i.log">
 			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
 			<Policies>
 				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
@@ -153,8 +152,8 @@
 			</DefaultRolloverStrategy>
 		</RollingFile>
 		
-		<RollingFile name="LogApproveWS" fileName="${baseDir}/ApproveWS.log"
-			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/ApproveWS-%d{yyyy-MM-dd-HH}-%i.log">
+		<RollingFile name="LogEmployeeWS" fileName="${baseDir}/EmployeeWS.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/EmployeeWS-%d{yyyy-MM-dd-HH}-%i.log">
 			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
 			<Policies>
 				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
@@ -169,8 +168,8 @@
 			</DefaultRolloverStrategy>
 		</RollingFile>
 		
-		<RollingFile name="LogAttachmentWs" fileName="${baseDir}/AttachmentWs.log"
-			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/AttachmentWs-%d{yyyy-MM-dd-HH}-%i.log">
+		<RollingFile name="LogHomeWS" fileName="${baseDir}/HomeWS.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/HomeWS-%d{yyyy-MM-dd-HH}-%i.log">
 			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
 			<Policies>
 				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
@@ -185,8 +184,40 @@
 			</DefaultRolloverStrategy>
 		</RollingFile>
 		
-		<RollingFile name="LogLockProcessWS" fileName="${baseDir}/LockProcessWS.log"
-			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/LockProcessWS-%d{yyyy-MM-dd-HH}-%i.log">
+		<RollingFile name="LogActivityWS" fileName="${baseDir}/ActivityWS.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/ActivityWS-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<RollingFile name="LogAnnounceWS" fileName="${baseDir}/AnnounceWS.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/AnnounceWS-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<RollingFile name="LogReferenceWS" fileName="${baseDir}/ReferenceWS.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/ReferenceWS-%d{yyyy-MM-dd-HH}-%i.log">
 			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
 			<Policies>
 				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
@@ -215,11 +246,7 @@
 		<Logger name="FILTER" level="DEBUG">
 			<AppenderRef ref="LogFILTER" />
 		</Logger>
-		
-		<Logger name="SenderErrorUtil" level="DEBUG">
-			<AppenderRef ref="LogSenderErrorUtil" />
-		</Logger>
-		
+
 		<Logger name="SubmitterIdLogUtil" level="DEBUG">
 			<AppenderRef ref="LogSubmitterIdLogUtil" />
 		</Logger>
@@ -236,20 +263,32 @@
 			<AppenderRef ref="LogSelectitemWS" />
 		</Logger>
 		
-		<Logger name="PreApproveWS" level="DEBUG">
-			<AppenderRef ref="LogPreApproveWS" />
+		<Logger name="AboutUsWS" level="DEBUG">
+			<AppenderRef ref="LogAboutUsWS" />
 		</Logger>
 		
-		<Logger name="ApproveWS" level="DEBUG">
-			<AppenderRef ref="LogApproveWS" />
+		<Logger name="DepartmentWS" level="DEBUG">
+			<AppenderRef ref="LogDepartmentWS" />
 		</Logger>
 		
-		<Logger name="AttachmentWs" level="DEBUG">
-			<AppenderRef ref="LogAttachmentWs" />
+		<Logger name="EmployeeWS" level="DEBUG">
+			<AppenderRef ref="LogEmployeeWS" />
 		</Logger>
 		
-		<Logger name="LockProcessWS" level="DEBUG">
-			<AppenderRef ref="LogLockProcessWS" />
+		<Logger name="HomeWS" level="DEBUG">
+			<AppenderRef ref="LogHomeWS" />
+		</Logger>
+		
+		<Logger name="ActivityWS" level="DEBUG">
+			<AppenderRef ref="LogActivityWS" />
+		</Logger>
+		
+		<Logger name="AnnounceWS" level="DEBUG">
+			<AppenderRef ref="LogAnnounceWS" />
+		</Logger>
+		
+		<Logger name="ReferenceWS" level="DEBUG">
+			<AppenderRef ref="LogReferenceWS" />
 		</Logger>
 		
 		<Root level="DEBUG">

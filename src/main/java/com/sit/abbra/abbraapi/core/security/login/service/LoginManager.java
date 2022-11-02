@@ -144,7 +144,7 @@ public class LoginManager extends CommonManager {
 			// Process authen code
 			new AuthenticationManager(getLogger()).processAuthenCode(conn, authId, authorizeRequest, loginUser.getUserId());
 			
-			insertLoginEventLog(loginUserRequest, loginUser);
+			//insertLoginEventLog(loginUserRequest, loginUser);
 		} finally {
 			CCTConnectionUtil.close(conn);
 		}
