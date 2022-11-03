@@ -3,8 +3,8 @@ searchEmployee#Ver.1#{
   from [OC].sec_user
   where 1=1
   AND( 
-    USER_CODE = ?
-    OR FORENAME = ?
-    OR SURNAME = ?
+    USER_CODE LIKE CONCAT(?, '%')
+    OR FORENAME LIKE CONCAT(?, '%')
+    OR SURNAME LIKE CONCAT(?, '%')
   )
 }

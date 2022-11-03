@@ -55,7 +55,7 @@ public class ReferenceDAO extends CommonDAO {
 			stmt = SQLParameterizedUtil.createPrepareStatement(conn.getConn(), sql, params);
 			rst = stmt.executeQuery();
 			
-			if (rst.next()) {
+			while (rst.next()) {
 				Reference ref = new Reference();
 				
 				String filename = StringUtil.nullToString(rst.getString("File"));

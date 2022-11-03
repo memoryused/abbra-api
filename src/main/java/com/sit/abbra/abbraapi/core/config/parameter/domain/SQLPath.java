@@ -27,7 +27,7 @@ public enum SQLPath {
 	ABOUT_US_SQL(AboutUsSQL.class, "com/sit/abbra/abbraapi/sql/aboutus/AboutUs.sql"),
 	DEPARTMENT_SQL(DepartmentSQL.class, "com/sit/abbra/abbraapi/sql/department/Department.sql"),
 	EMPLOYEE_SQL(EmployeeSQL.class, "com/sit/abbra/abbraapi/sql/employee/Employee.sql"),
-	REFERENCE_SQL(ReferenceSQL.class, "com/sit/abbra/abbraapi/sql/referenceWS/Reference.sql"),
+	REFERENCE_SQL(ReferenceSQL.class, "com/sit/abbra/abbraapi/sql/reference/Reference.sql"),
 	;
 	
 	private ReferenceSQLPath sqlPath;
