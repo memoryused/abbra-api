@@ -17,6 +17,7 @@ public class UserProfile implements Serializable {
 	private String organizeName;
 	private String mainPathURL; 
 	private String loginDate; 
+	private String picture; 
 	private List<Operator> listOperator = null; // ใช้สำหรับวาดเมนู
 	private List<CommonSelectItem> listContactUs = null;
 	
@@ -29,6 +30,7 @@ public class UserProfile implements Serializable {
 		this.changelogRead = loginUser.getChangeLog();
 		this.organizeName = loginUser.getOrganizationName();
 		this.loginDate = loginUser.getLoginDate();
+		this.picture = loginUser.getPicture();
 	}
 
 	public List<Operator> getListOperator() {
@@ -109,5 +111,13 @@ public class UserProfile implements Serializable {
 
 	public void setLoginDate(String loginDate) {
 		this.loginDate = loginDate;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 }

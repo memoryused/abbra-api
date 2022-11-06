@@ -69,7 +69,7 @@ public class ReferenceDAO extends CommonDAO {
 					
 					ref.setLabel(fMonth + "-" + fnArray[fnArray.length-2]);
 					ref.setExtension(fnArray[fnArray.length-1].substring(fnArray[fnArray.length-1].lastIndexOf(".")+1));
-					ref.setFn(filename);
+					ref.setFn(fnArray[fnArray.length-1]);
 					ref.setFnPath(EExtensionApiSecurityUtil.encryptId(
 							loginUser.getSalt(), 
 							loginUser.getSecret(), 

@@ -16,6 +16,8 @@ import com.sit.abbra.abbraapi.core.employee.service.EmployeeManager;
 import com.sit.abbra.abbraapi.core.home.domain.HomeModel;
 import com.sit.abbra.abbraapi.core.home.service.HomeManager;
 import com.sit.abbra.abbraapi.core.security.login.domain.LoginUser;
+import com.sit.abbra.abbraapi.enums.ActionType;
+import com.sit.abbra.abbraapi.enums.MessageAlert;
 import com.sit.common.CommonWS;
 
 import util.json.JSONObjectMapperUtil;
@@ -50,7 +52,11 @@ public class EmployeeWS extends CommonWS {
 			manager.searchEmployee(modelResponse, modelRequest.getQuery());
 			
 			// #4 create manage util
-			response = getMessageUtil().manageResult(modelResponse);
+			if(modelResponse.getImg().isEmpty()) {
+				response = getMessageUtil().manageResult(modelResponse, MessageAlert.DATA_NOT_FOUND.getVal());
+			} else {
+				response = getMessageUtil().manageResult(modelResponse);
+			}
 						
 		}catch(Exception e) {
 			// call manage Exception

@@ -11,6 +11,7 @@ import com.sit.abbra.abbraapi.core.security.login.domain.Login;
 import com.sit.abbra.abbraapi.core.security.login.domain.LoginUser;
 import com.sit.abbra.abbraapi.core.security.login.domain.PibicsAuthenModel;
 import com.sit.abbra.abbraapi.core.security.login.domain.SecLogin;
+import com.sit.abbra.abbraapi.util.EExtensionApiUtil;
 import com.sit.core.common.domain.CommonSQLPath;
 import com.sit.core.common.service.CommonDAO;
 
@@ -340,6 +341,16 @@ public class LoginDAO extends CommonDAO {
 		
 		// , SALT
 		result.setSalt(StringUtil.nullToString(rst.getString("SALT")));
+		String picture =  StringUtil.nullToString(rst.getString("PICTURE"));
+		if(!picture.isEmpty()) {
+			result.setPicture(
+				EExtensionApiUtil.getThumbnailByScale(
+						ParameterConfig.getApplication().getSharePath() + picture, 
+						ParameterConfig.getThumbnailConfig().getScale(), 
+						ParameterConfig.getThumbnailConfig().isWatermark(), 
+						ParameterConfig.getThumbnailConfig().getWatermarkImage())
+				);
+		}
 		
 		return result;
 	}

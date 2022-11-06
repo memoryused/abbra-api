@@ -56,6 +56,9 @@ public class LoginUser implements Serializable {
 	@JsonIgnore
 	private String loginDate;
 	
+	@JsonIgnore
+	private String picture;
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -258,5 +261,13 @@ public class LoginUser implements Serializable {
 
 	public void setLoginDate(String loginDate) {
 		this.loginDate = loginDate;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 }
