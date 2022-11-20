@@ -215,6 +215,38 @@
 				</Delete>
 			</DefaultRolloverStrategy>
 		</RollingFile>
+		
+		<RollingFile name="LogReferenceWS" fileName="${baseDir}/ReferenceWS.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/ReferenceWS-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<RollingFile name="LogCultureWS" fileName="${baseDir}/CultureWS.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/CultureWS-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
 	</Appenders>
 	
 	<Loggers>
@@ -269,6 +301,14 @@
 		
 		<Logger name="AnnounceWS" level="DEBUG">
 			<AppenderRef ref="LogAnnounceWS" />
+		</Logger>
+		
+		<Logger name="ReferenceWS" level="DEBUG">
+			<AppenderRef ref="LogReferenceWS" />
+		</Logger>
+		
+		<Logger name="CultureWS" level="DEBUG">
+			<AppenderRef ref="LogCultureWS" />
 		</Logger>
 		
 		<Root level="DEBUG">
