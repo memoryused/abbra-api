@@ -140,9 +140,13 @@ public class AnnounceManager extends CommonManager {
 			//2. Manage file
 			// find path by announceType
 			Optional<AnnounceType> enumType = Arrays.stream(GlobalVariable.AnnounceType.values()).filter(objEnum -> objEnum.getKey().equals(modelReq.getAnnounce().getAnnounceType())).findFirst();
-			String pathbyType = enumType.get().getPath();
-			String category = enumType.get().getValue();
-			getLogger().debug("Category: {}",category);
+			String pathbyType = GlobalVariable.DEFAULT_PATH;
+			String category = "";
+			if(!enumType.isEmpty()) {
+				pathbyType = enumType.get().getPath();
+				category = enumType.get().getValue();
+			}
+			getLogger().debug("Path by type {} , Category: {}",pathbyType,category);
 			
 			// fileCover
 			String pathCover = null;
@@ -203,8 +207,8 @@ public class AnnounceManager extends CommonManager {
 			//2. Manage file
 			// find path by announceType
 			Optional<AnnounceType> enumType = Arrays.stream(GlobalVariable.AnnounceType.values()).filter(objEnum -> objEnum.getKey().equals(modelReq.getAnnounce().getAnnounceType())).findFirst();
-			String pathbyType = enumType.get().getPath();
-			
+			String pathbyType = !enumType.isEmpty()? enumType.get().getPath(): GlobalVariable.DEFAULT_PATH;
+			getLogger().debug("Path by type {}",pathbyType);
 			// fileCover
 			String pathCover = null;
 			if(fileCover != null) {

@@ -154,7 +154,7 @@ public class VdoAnnounceManager extends CommonManager {
 			CCTConnectionUtil.rollback(conn);
 			throw e;
 		} finally {
-			getLogger().debug("End Transaction");
+			getLogger().debug("End  Transaction");
 			CCTConnectionUtil.enableAutoCommit(conn);
 			CCTConnectionUtil.close(conn);
 		}
@@ -218,7 +218,7 @@ public class VdoAnnounceManager extends CommonManager {
 			conn.commit();
 			getLogger().debug("Commit");
 		}catch (Exception e) {
-			getLogger().error("End Transaction");
+			getLogger().error("Rollback");
 			CCTConnectionUtil.rollback(conn);
 			throw e;
 		} finally {

@@ -212,8 +212,8 @@ public class AnnounceDAO extends CommonDAO {
 		params[paramIndex++] = StringUtil.stringToNull(announce.getTitle());
 		params[paramIndex++] = StringUtil.stringToNull(announce.getDetail());
 		params[paramIndex++] = StringUtil.stringToNull(announce.getAnnounceDate());
-		params[paramIndex++] = new SQLExtraParam(SQLParamType.COLUMN_VALUE, StringUtil.stringToNull(announce.getCoverPicPath()), false);// StringUtil.stringToNull(announce.getCoverPicPath());
-		params[paramIndex++] = new SQLExtraParam(SQLParamType.COLUMN_VALUE, StringUtil.stringToNull(announce.getFilePath()), false);// StringUtil.stringToNull(announce.getFilePath());
+		params[paramIndex++] = new SQLExtraParam(SQLParamType.COLUMN_VALUE, StringUtil.stringToNull(announce.getCoverPicPath()), false);
+		params[paramIndex++] = new SQLExtraParam(SQLParamType.COLUMN_VALUE, StringUtil.stringToNull(announce.getFilePath()), false);
 		params[paramIndex++] = StringUtil.stringToNull(announce.getStatus());
 		params[paramIndex] = id;
 		

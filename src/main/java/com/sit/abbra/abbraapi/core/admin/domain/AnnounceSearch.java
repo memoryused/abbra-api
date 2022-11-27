@@ -1,6 +1,5 @@
 package com.sit.abbra.abbraapi.core.admin.domain;
 
-import java.io.Serializable;
 
 import com.sit.common.CommonSearch;
 
