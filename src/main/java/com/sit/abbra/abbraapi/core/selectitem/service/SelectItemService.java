@@ -1,16 +1,23 @@
 package com.sit.abbra.abbraapi.core.selectitem.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.Logger;
 
 import com.sit.abbra.abbraapi.core.config.parameter.domain.SQLPath;
 import com.sit.abbra.abbraapi.core.security.login.domain.LoginUser;
+import com.sit.abbra.abbraapi.core.selectitem.enums.GlobalType;
 import com.sit.abbra.abbraapi.core.selectitem.enums.SelectItemMapper;
 import com.sit.common.CommonSelectItem;
 import com.sit.core.common.service.CommonService;
+import com.sit.domain.GlobalVariable;
+import com.sit.domain.GlobalVariable.AnnounceType;
 
 import util.database.connection.CCTConnection;
 
@@ -23,8 +30,32 @@ public class SelectItemService extends CommonService {
 		this.dao = new SelectItemDAO(logger, SQLPath.SELECT_ITEM_SQL.getSqlPath());
 	}
 	
-	protected Map<String, List<CommonSelectItem>> searchGlobalDataSelectItem(CCTConnection conn, Locale locale) throws Exception {
-		return dao.searchGlobalDataSelectItem(conn, locale);
+	protected Map<String, List<CommonSelectItem>> searchGlobalDataSelectItem(CCTConnection conn, Locale locale) {
+		//FIXME: START Load GlobalData
+		Map<String, List<CommonSelectItem>> mapGlobalData = new HashMap<>();
+		// Combo AnnounceType
+		mapGlobalData.put(GlobalType.ANNOUNCE_TYPE.getGlobalType(), Arrays.asList(AnnounceType.values()).stream().filter(obj -> !obj.getKey().equals("6")).map(AnnounceType::getSelectItem).collect(Collectors.toList()));
+		
+		// Combo DepartmentAnnounce
+		List<String> lstKeyDep = Arrays.asList("15","16","17","18","19","20");
+		mapGlobalData.put(GlobalType.DEPARTMENT_ANNOUNCE.getGlobalType(), Arrays.asList(AnnounceType.values()).stream().filter(obj -> lstKeyDep.contains(obj.getKey())).map(AnnounceType::getSelectItem).collect(Collectors.toList()));
+		
+		// Combo Status
+		List<CommonSelectItem> lstStatus = new ArrayList<>();
+		CommonSelectItem selctItm = new CommonSelectItem();
+		selctItm.setKey(GlobalVariable.ACTIVE);
+		selctItm.setValue("Active");
+		lstStatus.add(selctItm);
+		selctItm = new CommonSelectItem();
+		selctItm.setKey(GlobalVariable.INACTIVE);
+		selctItm.setValue("Inactive");
+		lstStatus.add(selctItm);
+		mapGlobalData.put(GlobalType.ACTIVE_STATUS.getGlobalType(), lstStatus );
+		
+		
+		return mapGlobalData;
+		// END Load GlobalData
+		//return dao.searchGlobalDataSelectItem(conn, locale);
 	}
 	
 	protected List<CommonSelectItem> searchCommonSelectitem(CCTConnection conn, SelectItemMapper mapper

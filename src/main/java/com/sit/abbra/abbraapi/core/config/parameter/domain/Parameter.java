@@ -31,6 +31,7 @@ public class Parameter implements Serializable {
 	private UpdateExtToVfsWebService updateExtToVfsWebService;
 	private SockProxy sockProxy;
 	private ThumbnailatorConfig thumbnailConfig;
+	private AttachmentConfig attachmentConfig;
 	
 	public Application getApplication() {
 		return application;
@@ -145,5 +146,13 @@ public class Parameter implements Serializable {
 
 	public void setThumbnailConfig(ThumbnailatorConfig thumbnailConfig) {
 		this.thumbnailConfig = thumbnailConfig;
+	}
+
+	public AttachmentConfig getAttachmentConfig() {
+		return attachmentConfig;
+	}
+
+	public void setAttachmentConfig(AttachmentConfig attachmentConfig) {
+		this.attachmentConfig = attachmentConfig;
 	}
 }

@@ -72,4 +72,17 @@
     	<watermark>false</watermark>
     	<watermarkImage></watermarkImage>
     </thumbnailConfig>
+    
+    <attachmentConfig>
+        <maxFilesize>10</maxFilesize>	<!-- MB  -->
+        <maxVdosize>100</maxVdosize>	<!-- MB  -->
+        <!-- Image -->
+        <imgType>jpg</imgType>
+        <imgType>jpeg</imgType>
+        <imgType>png</imgType>
+        <!-- Document -->
+        <fileType>pdf</fileType>
+        <!-- VDO -->
+        <vdoType>mp4</vdoType>
+    </attachmentConfig>
 </parameter>

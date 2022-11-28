@@ -114,6 +114,10 @@ public class ParameterConfig implements Serializable {
 		return parameter.getThumbnailConfig();
 	}
 	
+	public static AttachmentConfig getAttachment() {
+		return parameter.getAttachmentConfig();
+	}
+	
 	public static Logger getLogger() {
 		return DefaultLogUtil.INITIAL;
 	}

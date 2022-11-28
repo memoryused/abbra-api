@@ -9,7 +9,9 @@ public enum GlobalType {
 	PUSH_STATUS("pushStatus"),
 	RESPONSE_STATUS("respStatus"),
 	CARRIER_CODE("carrierCode"),
-	ASM_STATUS("ASMStat")
+	ASM_STATUS("ASMStat"),
+	ANNOUNCE_TYPE("AnnounceType"),
+	DEPARTMENT_ANNOUNCE("DepartmentAnnounce"),
 	;
 	
 	private String globalTypeCode;

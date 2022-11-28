@@ -34,12 +34,27 @@
 				com.sit.authen.ws;com.sit.abbra.abbraapi.wsservice.v1;com.sit.abbra.abbraapi.web.filter
 			</param-value>
     </init-param>
+    <init-param>
+		<param-name>jersey.config.server.provider.classnames</param-name>
+		<param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
+	</init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>EXTAPI Web Service</servlet-name>
     <url-pattern>/rest/v1/*</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+	<servlet-name>GlobalDataServlet</servlet-name>
+	<servlet-class>com.sit.abbra.abbraapi.web.config.globaldata.servlet.GlobalDataServlet</servlet-class>
+	<load-on-startup>3</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+	<servlet-name>GlobalDataServlet</servlet-name>
+	<url-pattern>/globalDataServlet</url-pattern>
+  </servlet-mapping>
+  
   <servlet>
     <servlet-name>Login Servlet</servlet-name>
     <servlet-class>com.sit.abbra.abbraapi.web.security.login.LoginServlet</servlet-class>

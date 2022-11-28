@@ -2,6 +2,7 @@ package com.sit.abbra.abbraapi.core.config.parameter.domain;
 
 import com.sit.abbra.abbraapi.sql.TestSQL;
 import com.sit.abbra.abbraapi.sql.aboutus.AboutUsSQL;
+import com.sit.abbra.abbraapi.sql.admin.AdminSQL;
 import com.sit.abbra.abbraapi.sql.culture.CultureSQL;
 import com.sit.abbra.abbraapi.sql.department.DepartmentSQL;
 import com.sit.abbra.abbraapi.sql.employee.EmployeeSQL;
@@ -30,6 +31,7 @@ public enum SQLPath {
 	EMPLOYEE_SQL(EmployeeSQL.class, "com/sit/abbra/abbraapi/sql/employee/Employee.sql"),
 	REFERENCE_SQL(ReferenceSQL.class, "com/sit/abbra/abbraapi/sql/reference/Reference.sql"),
 	CULTURE_SQL(CultureSQL.class, "com/sit/abbra/abbraapi/sql/culture/Culture.sql"),
+	ADMIN_SQL(AdminSQL.class, "com/sit/abbra/abbraapi/sql/admin/Admin.sql"),
 	;
 	
 	private ReferenceSQLPath sqlPath;

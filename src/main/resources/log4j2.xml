@@ -247,6 +247,55 @@
 				</Delete>
 			</DefaultRolloverStrategy>
 		</RollingFile>
+		
+		<RollingFile name="LogAdminAnnounceWS" fileName="${baseDir}/AdminAnnounceWS.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/AdminAnnounceWS-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<RollingFile name="LogAdminDepAnnounceWS" fileName="${baseDir}/AdminDepAnnounceWS.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/AdminDepAnnounceWS-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<RollingFile name="LogAdminVdoAnnounceWS" fileName="${baseDir}/AdminVdoAnnounceWS.log"
+			filePattern="${baseDir}/&#36;&#36;{date:yyyy-MM}/AdminVdoAnnounceWS-%d{yyyy-MM-dd-HH}-%i.log">
+			<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] (%F:%L) %M %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50">
+				<Delete basePath="${baseDir}" maxDepth="3">
+					<IfFileName glob="*/*.log">
+						<IfLastModified age="1d" />
+					</IfFileName>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
 	</Appenders>
 	
 	<Loggers>
@@ -309,6 +358,18 @@
 		
 		<Logger name="CultureWS" level="DEBUG">
 			<AppenderRef ref="LogCultureWS" />
+		</Logger>
+		
+		<Logger name="AdminAnnounceWS" level="DEBUG">
+			<AppenderRef ref="LogAdminAnnounceWS" />
+		</Logger>
+		
+		<Logger name="AdminDepAnnounceWS" level="DEBUG">
+			<AppenderRef ref="LogAdminDepAnnounceWS" />
+		</Logger>
+		
+		<Logger name="AdminVdoAnnounceWS" level="DEBUG">
+			<AppenderRef ref="LogAdminVdoAnnounceWS" />
 		</Logger>
 		
 		<Root level="DEBUG">
