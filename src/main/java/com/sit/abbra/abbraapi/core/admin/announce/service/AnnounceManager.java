@@ -1,22 +1,20 @@
 package com.sit.abbra.abbraapi.core.admin.announce.service;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.Optional;
 
 import org.apache.logging.log4j.Logger;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import com.sit.abbra.abbraapi.core.admin.domain.Announce;
 import com.sit.abbra.abbraapi.core.admin.domain.AnnounceModel;
 import com.sit.abbra.abbraapi.core.admin.domain.AnnounceSearch;
 import com.sit.abbra.abbraapi.core.attachment.service.AttachMentManager;
-import com.sit.abbra.abbraapi.core.attachment.service.AttachMentManager.FilterType;
 import com.sit.abbra.abbraapi.core.config.parameter.domain.DBLookup;
 import com.sit.abbra.abbraapi.core.config.parameter.domain.ParameterConfig;
 import com.sit.abbra.abbraapi.core.security.login.domain.LoginUser;
 import com.sit.abbra.abbraapi.core.selectitem.enums.GlobalType;
 import com.sit.abbra.abbraapi.core.selectitem.service.SelectItemManager;
+import com.sit.abbra.abbraapi.util.attachment.AttachmentUtil;
 import com.sit.abbra.abbraapi.util.database.CCTConnectionProvider;
 import com.sit.common.CommonSearchResult;
 import com.sit.core.common.service.CommonManager;
@@ -25,6 +23,7 @@ import com.sit.domain.GlobalVariable.AnnounceType;
 
 import util.database.connection.CCTConnection;
 import util.database.connection.CCTConnectionUtil;
+import util.string.StringUtil;
 
 public class AnnounceManager extends CommonManager {
 
@@ -73,8 +72,13 @@ public class AnnounceManager extends CommonManager {
 			service.validateSearch(modelReq.getCriteria(), loginUser);
 			
 			conn = new CCTConnectionProvider().getConnection(conn, DBLookup.E_EXT_API.getLookup());
-			// Search
-			searchResult.setListResult(service.searchAnnounce(conn, modelReq.getCriteria(), loginUser));
+			
+			searchResult.setTotalResult(service.searchCountAnnounce(conn, modelReq.getCriteria()));
+			
+			if(searchResult.getTotalResult() > 0) {
+				// Search
+				searchResult.setListResult(service.searchAnnounce(conn, modelReq.getCriteria(), loginUser));
+			}
 		} finally {
 			CCTConnectionUtil.close(conn);
 		}
@@ -101,6 +105,7 @@ public class AnnounceManager extends CommonManager {
 				id = service.validateEdit(modelReq.getAnnounce(), loginUser);
 				// search by id
 				modelResponse.setAnnounce(service.searchById(conn, id, loginUser));
+				modelResponse.setHiddenToken(modelReq.getHiddenToken());
 			}
 			
 			// Combo AnnounceType
@@ -123,12 +128,7 @@ public class AnnounceManager extends CommonManager {
 	 * @param loginUser
 	 * @throws Exception
 	 */
-	public void addAnnounce(AnnounceModel modelReq, 
-			FormDataContentDisposition fileCoverMeta, 
-			File fileCover,
-			FormDataContentDisposition fileMeta, 
-			File file,
-			LoginUser loginUser) throws Exception {
+	public void addAnnounce(AnnounceModel modelReq, LoginUser loginUser) throws Exception {
 		getLogger().debug(" Admin addAnnounce ");
 		
 		CCTConnection conn = null;
@@ -136,7 +136,7 @@ public class AnnounceManager extends CommonManager {
 		try {
 			String sharedPath = ParameterConfig.getApplication().getSharePath();
 			//1. Validate
-			service.validateAddEdit(modelReq.getAnnounce(), file, loginUser, false);
+			service.validateAddEdit(modelReq.getAnnounce(), loginUser, false);
 			//2. Manage file
 			// find path by announceType
 			Optional<AnnounceType> enumType = Arrays.stream(GlobalVariable.AnnounceType.values()).filter(objEnum -> objEnum.getKey().equals(modelReq.getAnnounce().getAnnounceType())).findFirst();
@@ -147,24 +147,26 @@ public class AnnounceManager extends CommonManager {
 				category = enumType.get().getValue();
 			}
 			getLogger().debug("Path by type {} , Category: {}",pathbyType,category);
+			conn = new CCTConnectionProvider().getConnection(conn, DBLookup.E_EXT_API.getLookup());
 			
 			// fileCover
-			String pathCover = null;
-			if(fileCover != null) {
-				getLogger().debug("Has fileCover");
-				pathCover = attachMentManager.manageFile(fileCover, fileCoverMeta, pathbyType, modelReq.getAnnounce().getAnnounceDate(), FilterType.IMG);
+			String pathCover = modelReq.getAnnounce().getCoverPicName();
+			if(StringUtil.stringToNull(modelReq.getAnnounce().getCoverPicPath()) != null) {
+				pathCover = AttachmentUtil.saveFileServerPath(conn, modelReq.getAnnounce().getCoverPicPath(), modelReq.getAnnounce().getAnnounceType(), loginUser);
 			}
 			
 			// file
-			String pathFile = attachMentManager.manageFile(file, fileMeta, pathbyType, modelReq.getAnnounce().getAnnounceDate(), FilterType.IMG_DOC);
+			String pathFile = modelReq.getAnnounce().getFileName();
+			if(StringUtil.stringToNull(modelReq.getAnnounce().getFilePath()) != null) {
+				pathFile = AttachmentUtil.saveFileServerPath(conn, modelReq.getAnnounce().getFilePath(), modelReq.getAnnounce().getAnnounceType(), loginUser);
+			}
 			
-			conn = new CCTConnectionProvider().getConnection(conn, DBLookup.E_EXT_API.getLookup());
 			CCTConnectionUtil.disableAutoCommit(conn);
 			getLogger().debug("Begin Transaction");
 			//3. Insert
 			service.addAnnounce(conn, modelReq.getAnnounce(), pathCover, pathFile, category);
 			// Upload
-			service.uploadFile(fileCover, pathCover, file, pathFile, sharedPath);
+			//service.uploadFile(fileCover, pathCover, file, pathFile, sharedPath);
 			
 			conn.commit();
 			getLogger().debug("Commit");
@@ -189,12 +191,7 @@ public class AnnounceManager extends CommonManager {
 	 * @param loginUser
 	 * @throws Exception
 	 */
-	public void editAnnounce(AnnounceModel modelReq, 
-			FormDataContentDisposition fileCoverMeta, 
-			File fileCover,
-			FormDataContentDisposition fileMeta, 
-			File file,
-			LoginUser loginUser) throws Exception {
+	public void editAnnounce(AnnounceModel modelReq, LoginUser loginUser) throws Exception {
 		getLogger().debug(" Admin editAnnounce ");
 		
 		CCTConnection conn = null;
@@ -202,35 +199,34 @@ public class AnnounceManager extends CommonManager {
 		try {
 			String sharedPath = ParameterConfig.getApplication().getSharePath();
 			//1. Validate
-			String id = service.validateAddEdit(modelReq.getAnnounce(), file, loginUser, true);
+			String id = service.validateAddEdit(modelReq.getAnnounce(), loginUser, true);
 
+			conn = new CCTConnectionProvider().getConnection(conn, DBLookup.E_EXT_API.getLookup());
+			
 			//2. Manage file
 			// find path by announceType
 			Optional<AnnounceType> enumType = Arrays.stream(GlobalVariable.AnnounceType.values()).filter(objEnum -> objEnum.getKey().equals(modelReq.getAnnounce().getAnnounceType())).findFirst();
 			String pathbyType = !enumType.isEmpty()? enumType.get().getPath(): GlobalVariable.DEFAULT_PATH;
 			getLogger().debug("Path by type {}",pathbyType);
 			// fileCover
-			String pathCover = null;
-			if(fileCover != null) {
-				getLogger().debug("Has fileCover");
-				pathCover = attachMentManager.manageFile(fileCover, fileCoverMeta, pathbyType, modelReq.getAnnounce().getAnnounceDate(), FilterType.IMG);
+			String pathCover = modelReq.getAnnounce().getCoverPicName();
+			if(StringUtil.stringToNull(modelReq.getAnnounce().getCoverPicPath()) != null) {
+				pathCover = AttachmentUtil.saveFileServerPath(conn, modelReq.getAnnounce().getCoverPicPath(), modelReq.getAnnounce().getAnnounceType(), loginUser);
 			}
 			
 			// file
-			String pathFile = null;
-			if(file != null) {
-				getLogger().debug("Has file");
-				pathFile = attachMentManager.manageFile(file, fileMeta, pathbyType, modelReq.getAnnounce().getAnnounceDate(), FilterType.IMG_DOC);
+			String pathFile = modelReq.getAnnounce().getFileName();
+			if(StringUtil.stringToNull(modelReq.getAnnounce().getFilePath()) != null) {
+				pathFile = AttachmentUtil.saveFileServerPath(conn, modelReq.getAnnounce().getFilePath(), modelReq.getAnnounce().getAnnounceType(), loginUser);
 			}
 			
-			conn = new CCTConnectionProvider().getConnection(conn, DBLookup.E_EXT_API.getLookup());
 			CCTConnectionUtil.disableAutoCommit(conn);
 			getLogger().debug("Begin Transaction");
 			
 			//3. Update
 			service.updateAnnounce(conn, modelReq.getAnnounce(), pathCover, pathFile, id);
 			// Upload
-			service.uploadFile(fileCover, pathCover, file, pathFile, sharedPath);
+			//service.uploadFile(fileCover, pathCover, file, pathFile, sharedPath);
 			
 			conn.commit();
 			getLogger().debug("Commit");

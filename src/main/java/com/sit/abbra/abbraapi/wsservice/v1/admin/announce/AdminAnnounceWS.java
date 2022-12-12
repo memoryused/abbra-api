@@ -19,8 +19,10 @@ import com.sit.abbra.abbraapi.core.admin.domain.AnnounceModel;
 import com.sit.abbra.abbraapi.core.admin.domain.AnnounceSearch;
 import com.sit.abbra.abbraapi.core.security.login.domain.LoginUser;
 import com.sit.abbra.abbraapi.enums.ActionType;
+import com.sit.abbra.abbraapi.util.attachment.AttachmentUtil;
 import com.sit.common.CommonSearchResult;
 import com.sit.common.CommonWS;
+import com.sit.domain.FileAttatchData;
 
 import util.json.JSONObjectMapperUtil;
 
@@ -96,15 +98,10 @@ public class AdminAnnounceWS extends CommonWS {
 	
 	@POST
 	@Path("/addAnnounce")
-	@Consumes({ MediaType.MULTIPART_FORM_DATA })
-	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_JSON })
 	public Response addAnnounce(
-			@Context HttpServletRequest request, 
-			@FormDataParam("jsonReq") String jsonReq,
-			@FormDataParam("fileCover") FormDataContentDisposition fileCoverMeta, 
-			@FormDataParam("fileCover") File fileCover,
-			@FormDataParam("fileAtt") FormDataContentDisposition fileMeta, 
-			@FormDataParam("fileAtt") File file) {
+			@Context HttpServletRequest request, String jsonReq) {
 		getLogger().info("Admin addAnnounce");
 		
 		Response response = null;
@@ -121,7 +118,7 @@ public class AdminAnnounceWS extends CommonWS {
 			AnnounceModel modelReq = (AnnounceModel) JSONObjectMapperUtil.convertJson2Object(jsonReq, AnnounceModel.class);
 			
 			AnnounceManager manager = new AnnounceManager(getLogger());
-			manager.addAnnounce(modelReq, fileCoverMeta, fileCover, fileMeta, file, loginUser);
+			manager.addAnnounce(modelReq, loginUser);
 
 			// #4 create manage util
 			response = getMessageUtil().manageResult(searchResult, ActionType.ADD);
@@ -204,15 +201,10 @@ public class AdminAnnounceWS extends CommonWS {
 	
 	@POST
 	@Path("/editAnnounce")
-	@Consumes({ MediaType.MULTIPART_FORM_DATA })
-	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_JSON })
 	public Response editAnnounce(
-			@Context HttpServletRequest request, 
-			@FormDataParam("jsonReq") String jsonReq,
-			@FormDataParam("fileCover") FormDataContentDisposition fileCoverMeta, 
-			@FormDataParam("fileCover") File fileCover,
-			@FormDataParam("fileAtt") FormDataContentDisposition fileMeta, 
-			@FormDataParam("fileAtt") File file) {
+			@Context HttpServletRequest request, String jsonReq) {
 		getLogger().info("Admin editAnnounce");
 		
 		Response response = null;
@@ -229,7 +221,7 @@ public class AdminAnnounceWS extends CommonWS {
 			AnnounceModel modelReq = (AnnounceModel) JSONObjectMapperUtil.convertJson2Object(jsonReq, AnnounceModel.class);
 			
 			AnnounceManager manager = new AnnounceManager(getLogger());
-			manager.editAnnounce(modelReq, fileCoverMeta, fileCover, fileMeta, file, loginUser);
+			manager.editAnnounce(modelReq, loginUser);
 			
 			// #4 create manage util
 			response = getMessageUtil().manageResult(searchResult, ActionType.EDIT);
@@ -274,4 +266,18 @@ public class AdminAnnounceWS extends CommonWS {
 		return response;
 	}
 	
+	@POST
+	@Path("/upload")
+	@Consumes({ MediaType.MULTIPART_FORM_DATA })
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response uploadEditAgr(
+			@Context HttpServletRequest request, 
+			@FormDataParam("jsonReq") String jsonReq,
+			@FormDataParam("fileAtt") FormDataContentDisposition fileMeta, 
+			@FormDataParam("fileAtt") File file)
+			throws Exception {
+		// REVIEW : Code Analysis by Anusorn.l : Methods should not have too many parameters
+		FileAttatchData fileAttatchData = new FileAttatchData(jsonReq, fileMeta, file);
+		return AttachmentUtil.upload(request, fileAttatchData, null, "80000000", this, getLogger());
+	}
 }

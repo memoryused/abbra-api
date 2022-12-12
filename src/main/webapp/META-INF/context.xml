@@ -12,7 +12,7 @@
 <!-- The contents of this file will be loaded for each web application -->
 <Context path="/abbra-api" docBase="">
 
-	<!-- Private IP
+	<!-- Private IP -->
 	<Resource 
 		name="jdbc/template_dc" 
 		auth="Container"
@@ -30,8 +30,8 @@
         testOnBorrow="true"
         testOnReturn="false"
 	/>
- -->
-	<!-- Public IP -->
+
+	<!-- Public IP 
 	<Resource 
 		name="jdbc/template_dc" 
 		auth="Container"
@@ -49,4 +49,5 @@
         testOnBorrow="true"
         testOnReturn="false"
 	/>
+	 -->
 </Context>

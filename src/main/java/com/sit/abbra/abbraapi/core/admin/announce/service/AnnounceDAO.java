@@ -33,6 +33,43 @@ public class AnnounceDAO extends CommonDAO {
 		super(logger, sqlPath);
 	}
 
+	protected int searchCountAnnounce(CCTConnection conn, AnnounceSearchCriteria criteria) throws Exception {
+		getLogger().debug(" Admin searchCountAnnounce ");
+		
+		int paramIndex = 0;
+		Object[] params = new Object[4];
+		params[paramIndex++] = StringUtil.stringToNull(criteria.getAnnounceType());
+		params[paramIndex++] = StringUtil.stringToNull(criteria.getTitle());
+		params[paramIndex++] = StringUtil.stringToNull(criteria.getDetail());
+		params[paramIndex++] = StringUtil.stringToNull(criteria.getAnnounceDate());
+		
+		String sql = SQLParameterizedUtil.getSQLString(
+				conn.getSchemas(), 
+				getSqlPath().getClassName(), 
+				getSqlPath().getPath(), 
+				"searchCountAnnounce",
+				params
+				);
+		
+		if(getLogger().isDebugEnabled()) {
+			getLogger().debug(SQLParameterizedDebugUtil.debugReplaceParameter(sql, params));
+		}
+		
+		PreparedStatement stmt = null;
+		ResultSet rst = null;
+		int count = 0;
+		try {
+			stmt = SQLParameterizedUtil.createPrepareStatement(conn.getConn(), sql, params);
+			rst = stmt.executeQuery();
+			
+			if(rst.next()) {
+				count = rst.getInt("CNT");
+			}
+		} finally {
+			CCTConnectionUtil.closeAll(rst, stmt);
+		}
+		return count;
+	}
 	/**
 	 * searchAnnounce
 	 * @param conn
@@ -47,11 +84,13 @@ public class AnnounceDAO extends CommonDAO {
 		List<AnnounceSearch> listAnnounceSearch = new ArrayList<>();
 		
 		int paramIndex = 0;
-		Object[] params = new Object[4];
+		Object[] params = new Object[6];
 		params[paramIndex++] = StringUtil.stringToNull(criteria.getAnnounceType());
 		params[paramIndex++] = StringUtil.stringToNull(criteria.getTitle());
 		params[paramIndex++] = StringUtil.stringToNull(criteria.getDetail());
-		params[paramIndex] = StringUtil.stringToNull(criteria.getAnnounceDate());
+		params[paramIndex++] = StringUtil.stringToNull(criteria.getAnnounceDate());
+		params[paramIndex++] = criteria.getPageIndex() *criteria.getLinePerPage();
+		params[paramIndex] = (criteria.getPageIndex() * criteria.getLinePerPage()) + criteria.getLinePerPage();
 		
 		String sql = SQLParameterizedUtil.getSQLString(
 				conn.getSchemas(), 
@@ -84,7 +123,7 @@ public class AnnounceDAO extends CommonDAO {
 				result.setTitle(StringUtil.nullToString(rst.getString(TITLE)));
 				result.setDetail(StringUtil.nullToString(rst.getString(DETAIL)));
 				result.setAnnounceDate(StringUtil.nullToString(rst.getString("Fm_AnnounceDate")));
-				result.setStatus(StringUtil.nullToString(rst.getString("Status")));
+				result.setStatus(StringUtil.nullToString(rst.getString("Status")).equals("Y") ? "Active": "Inactive");
 				
 				listAnnounceSearch.add(result);
 			}
@@ -138,11 +177,15 @@ public class AnnounceDAO extends CommonDAO {
 							loginUser.getSecret(), 
 							rst.getString("AnnounceId")
 							));
-				result.setAnnounceType(StringUtil.nullToString(rst.getString("Category")));
+				result.setAnnounceType(StringUtil.nullToString(rst.getString("AnnounceType")));
 				result.setTitle(StringUtil.nullToString(rst.getString(TITLE)));
 				result.setDetail(StringUtil.nullToString(rst.getString(DETAIL)));
 				result.setAnnounceDate(StringUtil.nullToString(rst.getString("Fm_AnnounceDate")));
 				result.setStatus(StringUtil.nullToString(rst.getString("Status")));
+				result.setFileName(StringUtil.nullToString(rst.getString("File")));
+				//result.setFilePath(EExtensionApiSecurityUtil.encryptId(loginUser.getSalt(), loginUser.getSecret(), StringUtil.nullToString(rst.getString("File"))));
+				result.setCoverPicName(StringUtil.nullToString(rst.getString("CoverPicture")));
+				//result.setCoverPicPath(EExtensionApiSecurityUtil.encryptId(loginUser.getSalt(), loginUser.getSecret(), StringUtil.nullToString(rst.getString("CoverPicture"))));
 			}
 			
 		} finally {
@@ -278,7 +321,14 @@ public class AnnounceDAO extends CommonDAO {
 		} finally {
 			CCTConnectionUtil.closeStatement(stmt);
 		}
-
 	}
 
+	private String getFileName(String fileName) throws Exception{
+		String fn = null;
+		if(StringUtil.stringToNull(fileName) != null) {
+			String[] strArr = fileName.split("/", -1);
+			fn = strArr[strArr.length-1];
+		}
+		return fn;
+	}
 }

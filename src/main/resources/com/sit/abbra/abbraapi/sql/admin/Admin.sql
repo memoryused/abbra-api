@@ -1,5 +1,5 @@
-searchAnnounce#Ver.1#{
-	SELECT AnnounceId, Title, Detail, Status, Category, DATE_FORMAT(AnnounceDate, '%d/%m/%Y') as Fm_AnnounceDate
+searchCountAnnounce#Ver.1#{
+	SELECT count(*) as CNT
 	FROM [OC].I_Announce_H
 	WHERE 1=1
 	AND AnnounceType = ?
@@ -9,8 +9,23 @@ searchAnnounce#Ver.1#{
 	ORDER BY AnnounceDate DESC
 }
 
-searchAnnounceById#Ver.1#{
+searchAnnounce#Ver.1#{
 	SELECT AnnounceId, Title, Detail, Status, Category, DATE_FORMAT(AnnounceDate, '%d/%m/%Y') as Fm_AnnounceDate
+	FROM [OC].I_Announce_H
+	WHERE 1=1
+	AND AnnounceType = ?
+	AND Title LIKE CONCAT('%',?,'%')
+	AND Detail LIKE CONCAT('%',?,'%')
+	AND AnnounceDate = STR_TO_DATE(?, '%d/%m/%Y')
+	ORDER BY AnnounceDate DESC
+	limit ?,
+	?
+}
+
+searchAnnounceById#Ver.1#{
+	SELECT AnnounceId, Title, Detail, Status, Category, AnnounceType, 
+	DATE_FORMAT(AnnounceDate, '%d/%m/%Y') as Fm_AnnounceDate,
+	File, CoverPicture
 	FROM [OC].I_Announce_H
 	WHERE 1=1
 	AND AnnounceId = ?

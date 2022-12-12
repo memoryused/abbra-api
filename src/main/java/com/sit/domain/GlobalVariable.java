@@ -20,6 +20,7 @@ public class GlobalVariable {
 	public static final String SPACE = " ";
 	public static final String SLASH = "/";
 	public static final String DEFAULT_PATH = SLASH +"default";
+	public static final String SPLITER_FILE_UPLOAD_KEYWORD = "@24ee;@";
 	//16/09/2022 thanat.s 2022EXTVFS-23 : แก้ไข format visaNo
 	public static final String VISA_FORMAT = "E{CURRENT_NO}/{RUNNING_YEAR}";
 	private static String[] arrLinePerPage = { "10", "20", "30", "40", "50", "60", "70", "80", "90", "100" };

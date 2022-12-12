@@ -120,7 +120,7 @@ public class VdoAnnounceService extends AnnounceService {
 	 */
 	protected String validateAddEditVdo(Announce announce, File file, LoginUser loginUser, boolean isEdit) throws Exception {	
 		// *** ใช้ร่วมกันกับ AnnounceService
-		return super.validateAddEdit(announce, file, loginUser, isEdit);
+		return super.validateAddEdit(announce, loginUser, isEdit);
 		
 	}
 	

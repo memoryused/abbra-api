@@ -2,7 +2,9 @@ package com.sit.abbra.abbraapi.core.admin.domain;
 
 import java.io.Serializable;
 
-public class AnnounceSearchCriteria implements Serializable{
+import com.sit.common.CommonSearchCriteria;
+
+public class AnnounceSearchCriteria extends CommonSearchCriteria {
 
 	private static final long serialVersionUID = -5443368675843655503L;
 	

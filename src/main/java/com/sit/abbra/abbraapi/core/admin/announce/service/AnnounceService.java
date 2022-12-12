@@ -36,6 +36,10 @@ public class AnnounceService extends CommonService {
 		this.dao = new AnnounceDAO(logger, SQLPath.ADMIN_SQL.getSqlPath());
 	}
 	
+	protected int searchCountAnnounce(CCTConnection conn, AnnounceSearchCriteria criteria) throws Exception {
+		return dao.searchCountAnnounce(conn, criteria);
+	}
+	
 	/**
 	 * searchAnnounce
 	 * @param conn
@@ -177,7 +181,7 @@ public class AnnounceService extends CommonService {
 	 * @param loginUser
 	 * @throws Exception
 	 */
-	protected String validateAddEdit(Announce announce, File file, LoginUser loginUser, boolean isEdit) throws Exception {	
+	protected String validateAddEdit(Announce announce, LoginUser loginUser, boolean isEdit) throws Exception {	
 		ResourceBundle bundle = BundleUtil.getBundle("resources.bundle.common.MessageAlert", loginUser.getLocale());
 		List<CommonInputValidate> invalidInputs = new ArrayList<>();
 		String id = null;
@@ -207,8 +211,12 @@ public class AnnounceService extends CommonService {
 		
 		// Check file
 		getLogger().debug("Validate file");
-		if(file == null && !isEdit) {
-			addInvalidInput(invalidInputs, "file", bundle.getString(MessageAlert.INSUFFICIENT_DATA.getVal()), null);
+		if(announce.getCoverPicPath() == null && !isEdit) {
+			addInvalidInput(invalidInputs, "coverPicName", bundle.getString(MessageAlert.INSUFFICIENT_DATA.getVal()), null);
+		}
+		
+		if(announce.getFilePath() == null && !isEdit) {
+			addInvalidInput(invalidInputs, "fileName", bundle.getString(MessageAlert.INSUFFICIENT_DATA.getVal()), null);
 		}
 		
 		if (!invalidInputs.isEmpty()) {

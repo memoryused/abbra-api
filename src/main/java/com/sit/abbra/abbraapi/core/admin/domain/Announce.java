@@ -10,7 +10,9 @@ public class Announce extends CommonDomain {
 	private String title;
 	private String detail;
 	private String announceDate;
+	private String coverPicName;
 	private String coverPicPath;
+	private String fileName;
 	private String filePath;
 	private String status;
 	
@@ -55,6 +57,18 @@ public class Announce extends CommonDomain {
 	}
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
+	}
+	public String getCoverPicName() {
+		return coverPicName;
+	}
+	public void setCoverPicName(String coverPicName) {
+		this.coverPicName = coverPicName;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 	
 }
