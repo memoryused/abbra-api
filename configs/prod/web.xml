@@ -62,7 +62,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Login Servlet</servlet-name>
-    <url-pattern>/signup</url-pattern>
+    <url-pattern>/signup/*</url-pattern>
   </servlet-mapping>
   <filter>
     <filter-name>ApiVersionFilter</filter-name>
