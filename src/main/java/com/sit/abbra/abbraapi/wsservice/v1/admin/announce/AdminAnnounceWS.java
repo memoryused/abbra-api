@@ -17,6 +17,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import com.sit.abbra.abbraapi.core.admin.announce.service.AnnounceManager;
 import com.sit.abbra.abbraapi.core.admin.domain.AnnounceModel;
 import com.sit.abbra.abbraapi.core.admin.domain.AnnounceSearch;
+import com.sit.abbra.abbraapi.core.security.authorize.service.AuthorizeManager;
 import com.sit.abbra.abbraapi.core.security.login.domain.LoginUser;
 import com.sit.abbra.abbraapi.enums.ActionType;
 import com.sit.abbra.abbraapi.util.attachment.AttachmentUtil;
@@ -44,6 +45,8 @@ public class AdminAnnounceWS extends CommonWS {
 			LoginUser loginUser = getLoginUser(request);
 				
 			// #2 [Skip] Validate permission
+			AuthorizeManager authorizeManager = new AuthorizeManager(getLogger());
+			authorizeManager.checkAdminGroup(loginUser);
 			
 			// #3 Insert event log
 			
@@ -77,6 +80,8 @@ public class AdminAnnounceWS extends CommonWS {
 			LoginUser loginUser = getLoginUser(request);
 				
 			// #2 [Skip] Validate permission
+			AuthorizeManager authorizeManager = new AuthorizeManager(getLogger());
+			authorizeManager.checkAdminGroup(loginUser);
 			
 			// #3 Insert event log
 			
@@ -111,6 +116,8 @@ public class AdminAnnounceWS extends CommonWS {
 			LoginUser loginUser = getLoginUser(request);
 				
 			// #2 [Skip] Validate permission
+			AuthorizeManager authorizeManager = new AuthorizeManager(getLogger());
+			authorizeManager.checkAdminGroup(loginUser);
 			
 			// #3 Insert event log
 			
@@ -145,6 +152,8 @@ public class AdminAnnounceWS extends CommonWS {
 			LoginUser loginUser = getLoginUser(request);
 				
 			// #2 [Skip] Validate permission
+			AuthorizeManager authorizeManager = new AuthorizeManager(getLogger());
+			authorizeManager.checkAdminGroup(loginUser);
 			
 			// #3 Insert event log
 			
@@ -180,6 +189,8 @@ public class AdminAnnounceWS extends CommonWS {
 			LoginUser loginUser = getLoginUser(request);
 				
 			// #2 [Skip] Validate permission
+			AuthorizeManager authorizeManager = new AuthorizeManager(getLogger());
+			authorizeManager.checkAdminGroup(loginUser);
 			
 			// #3 Insert event log
 			
@@ -214,6 +225,8 @@ public class AdminAnnounceWS extends CommonWS {
 			LoginUser loginUser = getLoginUser(request);
 				
 			// #2 [Skip] Validate permission
+			AuthorizeManager authorizeManager = new AuthorizeManager(getLogger());
+			authorizeManager.checkAdminGroup(loginUser);
 			
 			// #3 Insert event log
 			
@@ -247,6 +260,8 @@ public class AdminAnnounceWS extends CommonWS {
 			LoginUser loginUser = getLoginUser(request);
 				
 			// #2 [Skip] Validate permission
+			AuthorizeManager authorizeManager = new AuthorizeManager(getLogger());
+			authorizeManager.checkAdminGroup(loginUser);
 			
 			// #3 Insert event log
 			

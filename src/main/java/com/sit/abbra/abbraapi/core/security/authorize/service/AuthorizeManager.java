@@ -146,4 +146,35 @@ public class AuthorizeManager extends CommonManager {
 		}
 		return hasPermission;
 	}
+	
+	public void checkAdminGroup(LoginUser loginUser) throws Exception {
+		
+		CCTConnection conn = null;
+		try {
+			getLogger().debug("checkAdminGroup");
+			
+			conn = new CCTConnectionProvider().getConnection(conn, DBLookup.E_EXT_API.getLookup());
+			
+			if (loginUser.getUserId() != null) {
+				
+				LoginManager loginManager = new LoginManager(getLogger());
+				boolean isAdminGroup = loginManager.searchCountIsAdminGroup(conn, loginUser.getUserId());
+				if (!isAdminGroup) {
+					// ผลการตรวจสอบสิทธิ์ไม่ผ่าน
+					throw new AuthorizationException();
+				}
+			} else {
+				getLogger().error("UserId is null!!!");
+				// ไม่มี user ให้ตรวจสอบ
+				throw new AuthorizationException();
+			}
+		} catch (Exception e) {
+			if (!(e instanceof AuthorizationException)) {
+				getLogger().catching(e);
+			}
+			throw new AuthorizationException();
+		} finally {
+			CCTConnectionUtil.close(conn);
+		}
+	}
 }

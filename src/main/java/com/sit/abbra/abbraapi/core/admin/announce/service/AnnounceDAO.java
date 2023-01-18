@@ -3,7 +3,9 @@ package com.sit.abbra.abbraapi.core.admin.announce.service;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collector;
 
 import org.apache.logging.log4j.Logger;
 
@@ -14,6 +16,8 @@ import com.sit.abbra.abbraapi.core.security.login.domain.LoginUser;
 import com.sit.abbra.abbraapi.util.security.EExtensionApiSecurityUtil;
 import com.sit.core.common.domain.CommonSQLPath;
 import com.sit.core.common.service.CommonDAO;
+import com.sit.domain.GlobalVariable;
+import com.sit.domain.GlobalVariable.AnnounceType;
 
 import util.database.connection.CCTConnection;
 import util.database.connection.CCTConnectionUtil;
@@ -250,8 +254,10 @@ public class AnnounceDAO extends CommonDAO {
 		getLogger().debug(" Admin updateAnnounce ");
 		
 		int paramIndex = 0;
-		Object[] params = new Object[7];
+		Object[] params = new Object[9];
 		
+		params[paramIndex++] = StringUtil.stringToNull(announce.getAnnounceType());
+		params[paramIndex++] = Arrays.asList(AnnounceType.values()).stream().filter(obj -> obj.getKey().equals(announce.getAnnounceType())).map(AnnounceType::getValue).findFirst().get();
 		params[paramIndex++] = StringUtil.stringToNull(announce.getTitle());
 		params[paramIndex++] = StringUtil.stringToNull(announce.getDetail());
 		params[paramIndex++] = StringUtil.stringToNull(announce.getAnnounceDate());

@@ -47,8 +47,10 @@ insertAnnounce#Ver.1#{
 
 updateAnnounce#Ver.1#{
 	UPDATE [OC].I_Announce_H
-	SET 
-	Title = ? 
+	SET
+	AnnounceType = ?
+	, Category = ?
+	, Title = ? 
 	, Detail = ?
 	, AnnounceDate = STR_TO_DATE(?, '%d/%m/%Y')
 	, CoverPicture = %s
