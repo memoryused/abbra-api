@@ -282,4 +282,12 @@ public class LoginService extends CommonService {
 	protected PibicsAuthenModel searchUserDB(CCTConnection conn, String userName, String pass) throws Exception {
 		return dao.searchUserDB(conn, userName, pass);
 	}
+	
+	protected boolean searchCountIsAdminGroup(CCTConnection conn, String loginId) throws Exception {
+		return dao.searchCountIsAdminGroup(conn, loginId);
+	}
+	
+	protected void updateChangePassword(CCTConnection conn, String userId, String newPass) throws Exception {
+		dao.updateChangePassword(conn, userId, newPass);
+	}
 }

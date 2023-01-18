@@ -18,6 +18,7 @@ public class PibicsAuthenModel implements Serializable {
 	private String deptTnm;
 	private String positionName;
 	private long checkedAuthen; // จำนวน user ที่ count (กรณี authPB='Y')
+	private String resetPasswordStatus;
 
 	public String getUserId() {
 		return userId;
@@ -113,6 +114,14 @@ public class PibicsAuthenModel implements Serializable {
 
 	public void setCheckedAuthen(long checkedAuthen) {
 		this.checkedAuthen = checkedAuthen;
+	}
+
+	public String getResetPasswordStatus() {
+		return resetPasswordStatus;
+	}
+
+	public void setResetPasswordStatus(String resetPasswordStatus) {
+		this.resetPasswordStatus = resetPasswordStatus;
 	}
 
 }

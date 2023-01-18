@@ -570,4 +570,33 @@ public class InputValidateUtil {
 		invalidInputs.add(input);
 		logger.error("[{}] : [{}] -> [{}]", element, value, msg);
 	}
+	
+	public static boolean isStrongPassword(String value) {
+		boolean[] strong = {false, false, false, false};
+		
+		if (!isNull(value)) {
+			if(value.length() < 6) {
+				return strong[0] && strong[1] && strong[2] && strong[3];
+			}
+			
+			for (int i = 0; i < value.length(); i++) {
+				String c = String.valueOf(value.charAt(i));
+				
+				if(c.matches("^[A-Z]+$")) {
+					strong[0] = true;
+				}
+				if(c.matches("^[a-z]+$")) {
+					strong[1] = true;
+				}
+				if(c.matches("^[a-z]+$")) {
+					strong[2] = true;
+				}
+				if(c.matches("^[`!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~฿\\s]+$")) {
+					strong[3] = true;
+				}
+			}
+		}
+		
+		return strong[0] && strong[1] && strong[2] && strong[3];
+	}
 }

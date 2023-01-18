@@ -250,8 +250,24 @@ updatePopupChangeLog#Ver.1#{
 }
 
 searchUserDB#Ver.1#{
-	SELECT USER_ID, USER_CODE
+	SELECT USER_ID, USER_CODE, RESET_PASSWORD_STATUS
 	FROM sec_user
 	WHERE USERNAME = ?
 	AND PASSWORD = ?
+}
+
+searchIsAdminGroup#Ver.1#{
+	select count(g.GROUP_ID) as CNT FROM sec_user_group g
+	where g.GROUP_ID = '106'
+	and g.USER_ID = ?
+}
+
+updateChangePassword#Ver.1#{
+	UPDATE LOG.sec_user
+	SET
+	  PASSWORD = ?
+	  ,RESET_PASSWORD_STATUS = 'N'
+	  ,update_date = sysdate()
+	  ,update_user = ?
+	WHERE USER_ID = ?
 }

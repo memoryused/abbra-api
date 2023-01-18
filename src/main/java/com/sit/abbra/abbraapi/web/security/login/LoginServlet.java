@@ -33,7 +33,11 @@ public class LoginServlet extends HttpServlet {
 		try {
 			AuthorizeRequest authorizeRequest = null;
 			LoginManager manager = new LoginManager(getLogger());
-			if(loginUserRequest.isOverride()) {
+			if(loginUserRequest.isChangePWD()) {
+				// call change password
+				manager.changePassword(loginUserRequest);
+				authorizeRequest = manager.login(loginUserRequest, request);
+			} else if(loginUserRequest.isOverride()) {
 				// call manage business manager
 				authorizeRequest = manager.overrideLogin(loginUserRequest);
 			} else {
@@ -46,7 +50,7 @@ public class LoginServlet extends HttpServlet {
 			String url = clientSystem.getRedirectUrl() + "?code=" + authorizeRequest.getKey() + "&state=" + authorizeRequest.getState();
 			getLogger().debug("Redirect: {}", url);
 			response.sendRedirect(url);
-			
+
 		} catch (Exception e) {
 			execptionHandling(loginUserRequest, request, response, e);
 		}
@@ -107,6 +111,12 @@ public class LoginServlet extends HttpServlet {
 			} else {
 				loginUserRequest.setLocale(new Locale(loginUserRequest.getLanguage().toLowerCase(), loginUserRequest.getLanguage().toUpperCase()));
 			}
+			
+			loginUserRequest.setChangePWD("true".equals(request.getParameter("isChangePWD")));
+			loginUserRequest.setUsernameModal(StringUtil.stringToNull(request.getParameter("usernameModal")));
+			loginUserRequest.setPasswordModal(StringUtil.stringToNull(request.getParameter("passwordModal")));
+			loginUserRequest.setNewpasswordModal(StringUtil.stringToNull(request.getParameter("newpasswordModal")));
+			loginUserRequest.setCfnewpasswordModal(StringUtil.stringToNull(request.getParameter("cfnewpasswordModal")));
 		} catch (Exception e) {
 			getLogger().catching(e);
 		}

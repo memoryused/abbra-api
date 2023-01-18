@@ -671,4 +671,111 @@ public class LoginManager extends CommonManager {
 	public LoginUser getLoginUserByUserId(CCTConnection conn, String userId) throws Exception {
 		return service.getLoginUserByUserId(conn, userId);
 	}
+	
+	public boolean searchCountIsAdminGroup(CCTConnection conn, String loginId) throws Exception {
+		return service.searchCountIsAdminGroup(conn, loginId);
+	}
+	
+	public void changePassword(LoginUserRequest loginUserRequest) throws Exception{
+		getLogger().info("");
+		
+		CCTConnection conn = null;
+		try {
+			// input validate
+			validateInputChangePassword(loginUserRequest);
+			
+			// business validate
+			conn = new CCTConnectionProvider().getConnection(conn, DBLookup.E_EXT_API.getLookup());
+			
+			String temp = EncryptionUtil.doEncrypt(loginUserRequest.getPasswordModal(), EncType.SHA256);
+			PibicsAuthenModel pbAuth = service.searchUserDB(conn, loginUserRequest.getUsernameModal(), temp);
+			
+			// 1. user ต้องมีในระบบ
+			// 2. Admin ต้องเปลี่ยน flag reset password ให้ตามที่ user ร้องขอ 
+			if (pbAuth != null && pbAuth.getResetPasswordStatus().equals("Y")) {
+				// change password
+				String newpassword = EncryptionUtil.doEncrypt(loginUserRequest.getNewpasswordModal(), EncType.SHA256);
+				service.updateChangePassword(conn, pbAuth.getUserId(), newpassword);
+			} else {
+				getLogger().error("Username is Null");
+				throw new CustomException("50009");
+			}
+
+			//Set ค่าเพื่อไป login ต่อ
+			loginUserRequest.setUsername(loginUserRequest.getUsernameModal());
+			loginUserRequest.setPassword(loginUserRequest.getNewpasswordModal());
+			
+		} finally {
+			CCTConnectionUtil.close(conn);
+		}
+	}
+	
+	/**
+	 * Validate Input Change Password
+	 * @implNote
+	 * @param loginUser
+	 * @throws CustomException
+	 */
+	private void validateInputChangePassword(LoginUserRequest loginUser) throws CustomException {
+		long usernameLength = 20;
+		long passwordLength = 100;
+		
+		if (!InputValidateUtil.hasValue(loginUser)) {
+			getLogger().error("User object is Null");
+			throw new CustomException(MessageAlert.INSUFFICIENT_DATA.getVal());
+		}
+
+		if (!InputValidateUtil.hasValue(loginUser.getUsernameModal())) {
+			getLogger().error("Username is Null");
+			throw new CustomException(MessageAlert.INSUFFICIENT_DATA.getVal());
+		}
+		
+		if (usernameLength < loginUser.getUsernameModal().length()) {
+			getLogger().error("Username length > {}", usernameLength);
+			throw new CustomException(MessageAlert.INVALID_DATA.getVal());
+		}
+
+		if (!InputValidateUtil.hasValue(loginUser.getPasswordModal())) {
+			getLogger().error("Old password is Null");
+			throw new CustomException(MessageAlert.INSUFFICIENT_DATA.getVal());
+		}
+		
+		if (passwordLength < loginUser.getPasswordModal().length()) {
+			getLogger().error("Old password length > {}", passwordLength);
+			throw new CustomException(MessageAlert.INVALID_DATA.getVal());
+		}
+		
+		String npwd = loginUser.getNewpasswordModal();
+		String cfnpwd = loginUser.getCfnewpasswordModal();
+		if (!InputValidateUtil.hasValue(npwd)) {
+			getLogger().error("New password is Null");
+			throw new CustomException(MessageAlert.INSUFFICIENT_DATA.getVal());
+		}
+		
+		if (passwordLength < npwd.length()) {
+			getLogger().error("New password length > {}", passwordLength);
+			throw new CustomException(MessageAlert.INVALID_DATA.getVal());
+		}
+		if (!InputValidateUtil.hasValue(cfnpwd)) {
+			getLogger().error("Confirm New password is Null");
+			throw new CustomException(MessageAlert.INSUFFICIENT_DATA.getVal());
+		}
+		
+		if (passwordLength < cfnpwd.length()) {
+			getLogger().error("Confirm new password length > {}", passwordLength);
+			throw new CustomException(MessageAlert.INVALID_DATA.getVal());
+		}
+		
+		// Regex
+		if (!InputValidateUtil.isStrongPassword(npwd)) {
+			getLogger().error("Password must contain a-z A-Z 1-9 special charactor.");
+			throw new CustomException("10011");
+		}
+		
+		// Must same
+		if (!npwd.equals(cfnpwd)) {
+			getLogger().error("New password and Confirm password must same");
+			throw new CustomException("10012");
+		}
+	}
 }

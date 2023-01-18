@@ -19,6 +19,52 @@ public class LoginUserRequest implements Serializable {
 	private String agentName;
 	private String authId;
 	private Locale locale;
+	
+	private boolean isChangePWD;
+	private String usernameModal;
+	private String passwordModal;
+	private String newpasswordModal;
+	private String cfnewpasswordModal;
+
+	public boolean isChangePWD() {
+		return isChangePWD;
+	}
+
+	public void setChangePWD(boolean isChangePWD) {
+		this.isChangePWD = isChangePWD;
+	}
+
+	public String getUsernameModal() {
+		return usernameModal;
+	}
+
+	public void setUsernameModal(String usernameModal) {
+		this.usernameModal = usernameModal;
+	}
+
+	public String getPasswordModal() {
+		return passwordModal;
+	}
+
+	public void setPasswordModal(String passwordModal) {
+		this.passwordModal = passwordModal;
+	}
+
+	public String getNewpasswordModal() {
+		return newpasswordModal;
+	}
+
+	public void setNewpasswordModal(String newpasswordModal) {
+		this.newpasswordModal = newpasswordModal;
+	}
+
+	public String getCfnewpasswordModal() {
+		return cfnewpasswordModal;
+	}
+
+	public void setCfnewpasswordModal(String cfnewpasswordModal) {
+		this.cfnewpasswordModal = cfnewpasswordModal;
+	}
 
 	public String getPassword() {
 		return password;

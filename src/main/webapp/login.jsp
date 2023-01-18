@@ -19,7 +19,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-EXTENSION API Login</title>
+<title>ABBRA API Login</title>
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 <script src="webjars/jquery/3.5.1/jquery.min.js"></script>
 <script src="webjars/bootstrap/4.5.3/js/bootstrap.min.js"></script>
@@ -28,7 +28,8 @@
 <link href="css/style.css" rel="stylesheet">
 <link href="css/font/PSLKanda-font.css" rel="stylesheet"/>
 <%
-response.addHeader("Pragma", "no-cache");
+	String context = request.getContextPath();
+	response.addHeader("Pragma", "no-cache");
 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
 	response.setDateHeader("Expires", 0);
@@ -66,11 +67,12 @@ response.addHeader("Pragma", "no-cache");
 	String secLoginLabel = EExtensionApiUtil.getMessage(secBundle, "sec.login");
 	String secUsernamePlaceholder = EExtensionApiUtil.getMessage(secBundle, "sec.usernamePlaceholder");
 	String secPasswordPlaceholder = EExtensionApiUtil.getMessage(secBundle, "sec.passwordPlaceholder");
+	String secOldPasswordPlaceholder = EExtensionApiUtil.getMessage(secBundle, "sec.oldPasswordPlaceholder");
+	String secNewPasswordPlaceholder = EExtensionApiUtil.getMessage(secBundle, "sec.newPasswordPlaceholder");
+	String secCfNewPasswordPlaceholder = EExtensionApiUtil.getMessage(secBundle, "sec.cfNewPasswordPlaceholder");
 	String secSystemName = EExtensionApiUtil.getMessage(secBundle, "sec.systemName");
 	String recommandation = EExtensionApiUtil.getMessage(secBundle, "sec.footer_rec");
-	String linkDownload = EExtensionApiUtil.getMessage(secBundle, "sec.download_firefox"); 
-	String linkDownloadPrinter = EExtensionApiUtil.getMessage(secBundle, "sec.download_sw_printer"); 
-	String loginFooter = "Copyright © 2022 Project. All rights reserved. \r\nProject version 2022.08.00 build 413";
+	String loginFooter = "Copyright © 2022 Project. All rights reserved. \r\nProject version 2022.12.00 build 413";
 %>
 <%!private void redirectErrorPage(HttpServletRequest request, HttpServletResponse response, Logger logger){
 	response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -258,6 +260,35 @@ response.addHeader("Pragma", "no-cache");
 		    // toggle the eye / eye slash icon
 		    this.classList.toggle('bi-eye');
 		});
+		
+		const togglePasswordModal = document.querySelector('#togglePasswordModal');
+		const passwordModal = document.querySelector('#passModal');
+		const toggleNewPasswordModal = document.querySelector('#toggleNewPasswordModal');
+		const newpasswordModal = document.querySelector('#newpassModal');
+		const toggleCfNewPasswordModal = document.querySelector('#toggleCfNewPasswordModal');
+		const cfnewpasswordModal = document.querySelector('#cfnewpassModal');
+		
+		togglePasswordModal.addEventListener('click', function (e) {
+		    // toggle the type attribute
+		    const type = passwordModal.getAttribute('type') === 'password' ? 'text' : 'password';
+		    passwordModal.setAttribute('type', type);
+		    // toggle the eye / eye slash icon
+		    this.classList.toggle('bi-eye');
+		});
+		toggleNewPasswordModal.addEventListener('click', function (e) {
+		    // toggle the type attribute
+		    const type = newpasswordModal.getAttribute('type') === 'password' ? 'text' : 'password';
+		    newpasswordModal.setAttribute('type', type);
+		    // toggle the eye / eye slash icon
+		    this.classList.toggle('bi-eye');
+		});
+		toggleCfNewPasswordModal.addEventListener('click', function (e) {
+		    // toggle the type attribute
+		    const type = cfnewpasswordModal.getAttribute('type') === 'password' ? 'text' : 'password';
+		    cfnewpasswordModal.setAttribute('type', type);
+		    // toggle the eye / eye slash icon
+		    this.classList.toggle('bi-eye');
+		});
 	}
 	
 	function login(){
@@ -293,8 +324,58 @@ response.addHeader("Pragma", "no-cache");
 		}
 	}
 	
-	function downloadBrowser(){
-		alert();
+	function openDialogChangePWD(){
+		// แสดง popup change password
+		jQuery('#changePassword').modal('show');
+		
+		// event กดปุ่ม ok ของ popup override
+		jQuery("#btnChangePassword").on("click", function(){
+			if(document.getElementById("userModal").value == ''){
+				showMsg('<%=labels.getString("10002")%>');
+				document.getElementById("userModalInput").classList.add("requiredInput");
+				document.getElementById("userModal").focus();
+				return false;
+			} else {
+				document.getElementById("userModalInput").classList.remove("requiredInput");
+			}
+			
+			if(document.getElementById("passModal").value == ''){
+				showMsg('<%=labels.getString("10002")%>');
+				document.getElementById("passInputModal").classList.add("requiredInput");
+				document.getElementById("passModal").focus();
+				return false;
+			} else {
+				document.getElementById("passInputModal").classList.remove("requiredInput");
+			} 
+			
+			if(document.getElementById("newpassModal").value == ''){
+				showMsg('<%=labels.getString("10002")%>');
+				document.getElementById("newPassInputModal").classList.add("requiredInput");
+				document.getElementById("newpassModal").focus();
+				return false;
+			} else {
+				document.getElementById("newPassInputModal").classList.remove("requiredInput");
+			} 
+			
+			if(document.getElementById("cfnewpassModal").value == ''){
+				showMsg('<%=labels.getString("10002")%>');
+				document.getElementById("cfNewPassInputModal").classList.add("requiredInput");
+				document.getElementById("cfnewpassModal").focus();
+				return false;
+			} else {
+				document.getElementById("cfNewPassInputModal").classList.remove("requiredInput");
+			} 
+			
+			jQuery('#changePassword').modal('hide');
+			document.getElementById("isChangePWD").value = true;
+			document.getElementById("form2").submit();
+		});
+		
+		// event กดปุ่ม cancel ของ popup override
+		jQuery("#cancelChangePassword").on("click", function(){
+			jQuery('#changePassword').modal('hide');
+			document.getElementById("user").focus();
+		});
 	}
 </script>
 </head>
@@ -349,6 +430,9 @@ response.addHeader("Pragma", "no-cache");
 										<button type="submit" class="btn btn-warning btn-block mb-2 rounded-pill shadow-sm btn-login" onclick="return login();"><%=secLoginLabel%></button>
 										<input type="hidden" id="isOverride" name="isOverride">
 									</form>
+									<p>
+										<a href="javascript:void(0)" onclick="openDialogChangePWD()" >Change password</a>
+									</p>
 									<p class="version"><%=loginFooter%></p>  
 								</div>
 							</div>
@@ -359,12 +443,69 @@ response.addHeader("Pragma", "no-cache");
 		</div>
 	</div>
 	
+		<!-- Modal -->
+	<form id="form2" method="post" action="signup" autocomplete="off">
+	<div class="modal fade" id="changePassword" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="changePassword" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">Change Password</h5>
+	      </div>
+	      <div class="modal-body">
+	        <div id="userModalInput" class="form-group mb-4 input-container">
+				<span class="bi bi-person icon-left" id="userIcon">
+				</span>
+				<input id="userModal" name="usernameModal" type="text"
+					placeholder="<%=secUsernamePlaceholder%>"
+					autofocus="autofocus"
+					maxlength="50"
+					class="form-control shadow-sm px-4 input-field">
+			</div>
+			<div id="passInputModal" class="form-group mb-4 input-container">
+				<span class="bi bi-lock icon-left" id="passIconModal"></span>
+				<span class="bi bi-eye-slash icon-eyes" id="togglePasswordModal">
+				</span>
+				<input id="passModal" name="passwordModal" type="password"
+					placeholder="<%=secOldPasswordPlaceholder%>"
+					maxlength=100
+					class="form-control shadow-sm px-4 input-field">
+			</div>
+			<div id="newPassInputModal" class="form-group mb-4 input-container">
+				<span class="bi bi-lock icon-left" id="newPassIconModal"></span>
+				<span class="bi bi-eye-slash icon-eyes" id="toggleNewPasswordModal">
+				</span>
+				<input id="newpassModal" name="newpasswordModal" type="password"
+					placeholder="<%=secNewPasswordPlaceholder%>"
+					maxlength=100
+					class="form-control shadow-sm px-4 input-field">
+			</div>
+			<div id="cfNewPassInputModal" class="form-group mb-4 input-container">
+				<span class="bi bi-lock icon-left" id="cfNewPassIconModal"></span>
+				<span class="bi bi-eye-slash icon-eyes" id="toggleCfNewPasswordModal">
+				</span>
+				<input id="cfnewpassModal" name="cfnewpasswordModal" type="password"
+					placeholder="<%=secCfNewPasswordPlaceholder%>"
+					maxlength=100
+					class="form-control shadow-sm px-4 input-field">
+			</div>
+	      </div>
+	      <div class="modal-footer">
+	      	<input type="hidden" id="isChangePWD" name="isChangePWD">
+	      	<input type="hidden" name="authId" value="<%=request.getParameter("id")%>" autocomplete="off">
+	        <button type="button" class="btn btn-primary btn-modal" id="btnChangePassword">Ok</button>
+	        <button type="button" class="btn btn-light btn-modal btn-modal-cancel" id="cancelChangePassword">Cancel</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	</form>
+	
 	<!-- Modal -->
 	<div class="modal fade" id="confirmOverride" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="confirmOverride" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title">Comfirmation</h5>
+	        <h5 class="modal-title">Confirmation</h5>
 	      </div>
 	      <div class="modal-body">
 	        <%=msgDesc %>

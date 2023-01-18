@@ -777,6 +777,7 @@ public class LoginDAO extends CommonDAO {
 			if (rst.next()){
 				pbAuth = new PibicsAuthenModel();
 				pbAuth.setUserId(StringUtil.nullToString(rst.getString("USER_ID")));
+				pbAuth.setResetPasswordStatus(StringUtil.nullToString(rst.getString("RESET_PASSWORD_STATUS")));
 			}
 			
 		} finally {
@@ -785,7 +786,71 @@ public class LoginDAO extends CommonDAO {
 		return pbAuth;
 	}
 	
+	protected boolean searchCountIsAdminGroup(CCTConnection conn, String loginId) throws Exception {
+		getLogger().debug("");
+		
+		boolean isAdminGroup = false;
+		
+		int paramIndex = 0;
+		Object[] params = new Object[1];
+		params[paramIndex++] = StringUtil.nullToString(loginId);
+		
+		String sql = SQLParameterizedUtil.getSQLString(conn.getSchemas()
+				, getSqlPath().getClassName()
+				, getSqlPath().getPath()
+				, "searchIsAdminGroup"
+				, params
+				);
+
+		if (getLogger().isDebugEnabled()) {
+			getLogger().debug(SQLParameterizedDebugUtil.debugReplaceParameter(sql, params));
+		}
+
+		PreparedStatement stmt = null;
+	    ResultSet rst = null;	    
+		try {
+			stmt = SQLParameterizedUtil.createPrepareStatement(conn.getConn(), sql, params);
+	        rst = stmt.executeQuery();
+	        
+			if (rst.next()){
+				isAdminGroup = rst.getInt("CNT") > 0 ? true : false;
+			}
+			
+		} finally {
+			CCTConnectionUtil.closeAll(rst, stmt);
+		}
+		return isAdminGroup;
+	}
 	
+	protected void updateChangePassword(CCTConnection conn, String userId, String newPass) throws Exception {
+		getLogger().debug("");
+		
+		int paramIndex = 0;
+		Object[] params = new Object[3];
+		params[paramIndex++] = StringUtil.stringToNull(newPass);
+		params[paramIndex++] = StringUtil.stringToNull(userId);
+		params[paramIndex++] = StringUtil.stringToNull(userId);
+		
+
+		String sql = SQLParameterizedUtil.getSQLString(conn.getSchemas()
+				, getSqlPath().getClassName()
+				, getSqlPath().getPath()
+				, "updateChangePassword"
+				, params
+				);
+		
+		if (getLogger().isDebugEnabled()) {
+			getLogger().debug(SQLParameterizedDebugUtil.debugReplaceParameter(sql, params));
+		}
+		
+		PreparedStatement stmt = null;
+		try {
+			stmt = SQLParameterizedUtil.createPrepareStatement(conn.getConn(), sql, params);
+			stmt.executeUpdate();
+		} finally {
+			CCTConnectionUtil.closeStatement(stmt);
+		}
+	}
 	
 }
 	
