@@ -1,6 +1,8 @@
 package com.sit.abbra.abbraapi.core.security.login.domain;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.sit.common.CommonSelectItem;
@@ -20,6 +22,7 @@ public class UserProfile implements Serializable {
 	private String picture; 
 	private List<Operator> listOperator = null; // ใช้สำหรับวาดเมนู
 	private List<CommonSelectItem> listContactUs = null;
+	private HashMap<String, OperatorButton> mapOperBtn = new LinkedHashMap<>();
 	
 	private transient Environment environment;
 	
@@ -119,5 +122,13 @@ public class UserProfile implements Serializable {
 
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+
+	public HashMap<String, OperatorButton> getMapOperBtn() {
+		return mapOperBtn;
+	}
+
+	public void setMapOperBtn(HashMap<String, OperatorButton> mapOperBtn) {
+		this.mapOperBtn = mapOperBtn;
 	}
 }

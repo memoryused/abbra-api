@@ -3,16 +3,18 @@ package com.sit.abbra.abbraapi.core.security.login.service;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
 
-import com.sit.abbra.abbraapi.core.config.parameter.domain.SQLPath;
 import com.sit.abbra.abbraapi.core.config.parameter.domain.ParameterConfig;
+import com.sit.abbra.abbraapi.core.config.parameter.domain.SQLPath;
 import com.sit.abbra.abbraapi.core.security.login.domain.ClientSystem;
 import com.sit.abbra.abbraapi.core.security.login.domain.Login;
 import com.sit.abbra.abbraapi.core.security.login.domain.LoginUser;
+import com.sit.abbra.abbraapi.core.security.login.domain.OperatorButton;
 import com.sit.abbra.abbraapi.core.security.login.domain.PibicsAuthenModel;
 import com.sit.abbra.abbraapi.core.security.login.domain.SecLogin;
 import com.sit.abbra.abbraapi.core.security.login.domain.Token;
@@ -289,5 +291,9 @@ public class LoginService extends CommonService {
 	
 	protected void updateChangePassword(CCTConnection conn, String userId, String newPass) throws Exception {
 		dao.updateChangePassword(conn, userId, newPass);
+	}
+	
+	protected HashMap<String, OperatorButton> searchOperBtnByUserId(CCTConnection conn, String userId) throws Exception {
+		return dao.searchOperBtnByUserId(conn, userId);
 	}
 }

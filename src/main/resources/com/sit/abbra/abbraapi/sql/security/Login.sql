@@ -263,11 +263,18 @@ searchIsAdminGroup#Ver.1#{
 }
 
 updateChangePassword#Ver.1#{
-	UPDATE LOG.sec_user
+	UPDATE [OC].sec_user
 	SET
 	  PASSWORD = ?
 	  ,RESET_PASSWORD_STATUS = 'N'
 	  ,update_date = sysdate()
 	  ,update_user = ?
 	WHERE USER_ID = ?
+}
+
+searchOperBtnByUserId#Ver.1#{
+	select sec_abbr, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12 
+	from [OC].sec_oper_btn  
+	where USER_ID = ?
+	order by sec_abbr
 }
