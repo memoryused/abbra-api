@@ -2,6 +2,8 @@ package com.sit.abbra.abbraapi.core.security.login.service;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.apache.logging.log4j.Logger;
 
@@ -9,6 +11,7 @@ import com.sit.abbra.abbraapi.core.config.parameter.domain.ParameterConfig;
 import com.sit.abbra.abbraapi.core.security.login.domain.ClientSystem;
 import com.sit.abbra.abbraapi.core.security.login.domain.Login;
 import com.sit.abbra.abbraapi.core.security.login.domain.LoginUser;
+import com.sit.abbra.abbraapi.core.security.login.domain.OperatorButton;
 import com.sit.abbra.abbraapi.core.security.login.domain.PibicsAuthenModel;
 import com.sit.abbra.abbraapi.core.security.login.domain.SecLogin;
 import com.sit.abbra.abbraapi.util.EExtensionApiUtil;
@@ -852,6 +855,63 @@ public class LoginDAO extends CommonDAO {
 		}
 	}
 	
+	/**
+	 * หาสิทธิ์ตามปุ่มที่กำหนดเอาไว้
+	 * @param conn
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	protected HashMap<String, OperatorButton> searchOperBtnByUserId(CCTConnection conn, String userId) throws Exception {
+		HashMap<String, OperatorButton> mapOper = new LinkedHashMap<>();
+		
+		int paramIndex = 0;
+		Object[] params = new Object[1];
+		params[paramIndex] = userId;
+		
+		String sql = SQLParameterizedUtil.getSQLString(conn.getSchemas()
+				, getSqlPath().getClassName()
+				, getSqlPath().getPath()
+				, "searchOperBtnByUserId"
+				, params);
+
+		if (getLogger().isDebugEnabled()) {
+			getLogger().debug(SQLParameterizedDebugUtil.debugReplaceParameter(sql, params));
+		}
+		
+		PreparedStatement stmt = null;
+	    ResultSet rst = null;	    
+		try {
+			stmt = SQLParameterizedUtil.createPrepareStatement(conn.getConn(), conn.getDbType(), sql, params);
+	        rst = stmt.executeQuery();
+
+	        while (rst.next()) {
+	        	OperatorButton obj = new OperatorButton();
+	        	obj.setSecAbbr(StringUtil.nullToString(rst.getString("sec_abbr")));
+	        	obj.setB1(convertToBoolean(rst.getString("b1")));
+	        	obj.setB2(convertToBoolean(rst.getString("b2")));
+	        	obj.setB3(convertToBoolean(rst.getString("b3")));
+	        	obj.setB4(convertToBoolean(rst.getString("b4")));
+	        	obj.setB5(convertToBoolean(rst.getString("b5")));
+	        	obj.setB6(convertToBoolean(rst.getString("b6")));
+	        	obj.setB7(convertToBoolean(rst.getString("b7")));
+	        	obj.setB8(convertToBoolean(rst.getString("b8")));
+	        	obj.setB9(convertToBoolean(rst.getString("b9")));
+	        	obj.setB10(convertToBoolean(rst.getString("b10")));
+	        	obj.setB11(convertToBoolean(rst.getString("b11")));
+	        	obj.setB12(convertToBoolean(rst.getString("b12")));
+	        	
+	        	mapOper.put(obj.getSecAbbr(), obj);
+			}
+		} finally {
+			CCTConnectionUtil.closeAll(rst, stmt);
+		}
+		return mapOper;
+	}
+	
+	private boolean convertToBoolean(String data) throws Exception {
+		return (StringUtil.stringToNull(data) != null && data.equals("Y"));
+	}
 }
 	
 	

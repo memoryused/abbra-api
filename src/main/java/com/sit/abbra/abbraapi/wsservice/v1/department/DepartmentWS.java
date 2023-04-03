@@ -1,5 +1,7 @@
 package com.sit.abbra.abbraapi.wsservice.v1.department;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -11,7 +13,9 @@ import javax.ws.rs.core.Response;
 
 import com.sit.abbra.abbraapi.core.department.domain.DepartmentModel;
 import com.sit.abbra.abbraapi.core.department.service.DepartmentManager;
+import com.sit.abbra.abbraapi.core.security.authorize.service.AuthorizeManager;
 import com.sit.abbra.abbraapi.core.security.login.domain.LoginUser;
+import com.sit.abbra.abbraapi.core.security.login.domain.OperatorButton;
 import com.sit.common.CommonWS;
 
 import util.json.JSONObjectMapperUtil;
@@ -34,13 +38,16 @@ public class DepartmentWS extends CommonWS {
 			LoginUser loginUser = getLoginUser(request);
 				
 			// #2 [Skip] Validate permission
-			
+			AuthorizeManager authorizeManager = new AuthorizeManager(getLogger());
+			HashMap<String, OperatorButton> permission = authorizeManager.checkAuthorize(loginUser);
+					
 			// #3 Insert event log
 			
 			DepartmentModel modelRequest = (DepartmentModel) JSONObjectMapperUtil.convertJson2Object(jsonReq, DepartmentModel.class);
 			
 			// Call manage Business
 			modelResponse = new DepartmentModel();
+			modelResponse.setMapOperBtn(permission);
 			
 			DepartmentManager manager = new DepartmentManager(getLogger());
 			manager.gotoDepartment(modelResponse, modelRequest.getAbbrDep());

@@ -1,5 +1,7 @@
 package com.sit.abbra.abbraapi.core.security.authorize.service;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -8,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.sit.abbra.abbraapi.core.config.parameter.domain.DBLookup;
 import com.sit.abbra.abbraapi.core.security.login.domain.LoginUser;
+import com.sit.abbra.abbraapi.core.security.login.domain.OperatorButton;
 import com.sit.abbra.abbraapi.core.security.login.service.LoginManager;
 import com.sit.abbra.abbraapi.enums.PFOperator;
 import com.sit.abbra.abbraapi.util.database.CCTConnectionProvider;
@@ -176,5 +179,41 @@ public class AuthorizeManager extends CommonManager {
 		} finally {
 			CCTConnectionUtil.close(conn);
 		}
+	}
+	
+	/**
+	 * ตรวจสอบสิทธิ์การใช้งาน Menu
+	 * @param loginUser
+	 * @param menuId
+	 * @throws Exception เมื่อตรวจสอบไม่ผ่าน
+	 */
+	public HashMap<String, OperatorButton> checkAuthorize(LoginUser loginUser) throws Exception {
+		
+		HashMap<String, OperatorButton> mapOper = new LinkedHashMap<>();
+		
+		CCTConnection conn = null;
+		try {
+			getLogger().debug(METHOD_OPER_FORMAT);
+			
+			conn = new CCTConnectionProvider().getConnection(conn, DBLookup.E_EXT_API.getLookup());
+			
+			if (loginUser.getUserId() != null) {
+				
+				LoginManager loginManager = new LoginManager(getLogger());
+				mapOper = loginManager.searchOperBtnByUserId(conn, loginUser.getUserId());
+			} else {
+				getLogger().error("UserId is null!!!");
+				// ไม่มี user ให้ตรวจสอบ
+				throw new AuthorizationException();
+			}
+		} catch (Exception e) {
+			if (!(e instanceof AuthorizationException)) {
+				getLogger().catching(e);
+			}
+			throw new AuthorizationException();
+		} finally {
+			CCTConnectionUtil.close(conn);
+		}
+		return mapOper;
 	}
 }

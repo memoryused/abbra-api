@@ -3,6 +3,7 @@ package com.sit.abbra.abbraapi.core.security.login.service;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import com.sit.abbra.abbraapi.core.security.login.domain.Login;
 import com.sit.abbra.abbraapi.core.security.login.domain.LoginPayload;
 import com.sit.abbra.abbraapi.core.security.login.domain.LoginUser;
 import com.sit.abbra.abbraapi.core.security.login.domain.LoginUserRequest;
+import com.sit.abbra.abbraapi.core.security.login.domain.OperatorButton;
 import com.sit.abbra.abbraapi.core.security.login.domain.PibicsAuthenModel;
 import com.sit.abbra.abbraapi.core.security.login.domain.Token;
 import com.sit.abbra.abbraapi.core.security.login.domain.UserProfile;
@@ -426,6 +428,7 @@ public class LoginManager extends CommonManager {
 			// Get loginUser by Id
 			LoginUser loginUser =  service.getLoginUserByUserId(conn, userId);
 			userProfile = new UserProfile(loginUser);
+			userProfile.setMapOperBtn(service.searchOperBtnByUserId(conn, userId));
 			
 			// จัดการส่วน Token
 			secureLoginData(token, userId, loginUser.getSalt());
@@ -777,5 +780,9 @@ public class LoginManager extends CommonManager {
 			getLogger().error("New password and Confirm password must same");
 			throw new CustomException("10012");
 		}
+	}
+	
+	public HashMap<String, OperatorButton> searchOperBtnByUserId(CCTConnection conn, String userId) throws Exception {
+		return service.searchOperBtnByUserId(conn, userId);
 	}
 }
